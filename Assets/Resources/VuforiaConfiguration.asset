@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vuforia:
     vuforiaLicenseKey: Adlqb8f/////AAABmWmjYS0lzkkonF0wwJsMrNZAuYBtzuwpNw2BBaRqEmehOSnuQj3S7rQYRDTXFSxVU2ue44gkg+poq8ZDAirnq4kCREnBlxaO0jYOI3JYimOCyQk38+bPBYKCA31K9ntbaXHB8CAnzZbK8kTEP6qgcwGovJDXYC7XmawTiWsNmgs0YWSMoPK6fvQ7kPqcforswGeEw+olP7x6N5qzR4iHEEJoVYembqU4VBfQKhkucKJwLmroUbV2vEQXkWw/uIHOnPCPW1oTpDGFYCIr8qV3sbP/BlM+mcCl2FePO4SyPfiPQnDMur0iiZYubsQpKGxtHMuaQBuWfblN3BzX+6y7LIoW6yuwyz0XdLxjS1xadSZm
-    ufoLicenseKey: QWF4M01obi8vLy8vQUFBQUtMTWxvc1FEOEVheHJ4d1FwcWpueUsrYnh1Y0xaRklzK3R4RFVya0tQdW90L2hvNEt6Ulp2aVpQbFFGQ1o2dWs1S0tyQU5sekM2VGhjQTZMUXFTOExteG00QXZsK0JnWUx5bTF6bGx3ZkxrT1BJS0JIaXpkbE8xTHNVcEE4ODl5TlJ4QzBwaTQ2VGo4a3B0eDFzelpCN3hMMzFXcE5UWWZkdnU0bndxaTRiQnliVVoydHhCTys2aGd0NjB4eGdTT0JwOXIzalo0SForajlqVHhaOVVLR0lzc00zeTh3eU1zWlVHcXRha3N1aGM0NkVQWUtPTzBySzJTOXBkckhLZE9hL1BiZGVCbVRkZUtFRWYzQWlwTHo0OFBxWE53WEloZGplZUdWamxjeEdoUDVHWDNRMzNKdk4vSkNsWFpISVgxQ29OWng3WDBMSFE0akRRRUNnek9yeGNoODFiVXh3Q2pNU1pqNHVFRFpsblE=
+    ufoLicenseKey: QVRlT25zei8vLy8vQUFBQUtKa0dqRHJiVTA1YXVjVllFZkEweTAxdnNiYUxPdHZoWGVJN2w2UHg5aXhKVFZhMUgzdlVIT0w4REVKc0NjclVsZ093L0tDcmZZZXh6WVBvOEd2YkJ2REVuWElrQ2tEcVdvM3o0eHZOUDZFcVZ0bmVYR0x5dlRkYk5RMUlpOE8rRXhaQkhTN05jL1pmZlhBTWlaUEhGU1g2K2RJMFlxMWx6d09MdWpiampUbzZJNWZHYmkrRFZMNGV2VnhjTmJOemFRZHFYMUZ2UVpjcDBDdllMZUQ4UXYvTkMxMjlhY0ZxeHpkcUF1bncrLzZHN1FKNjljd0FoeGlaM3ZUeWlESW44cCtOaUs1MU1iOUpJSmlXY2dPdTcySnN2TmV6NWdHSjBEYzBheXo3K1JYVnJRekZFWXcrY0FNUnVFaGJpaFd0d3VSYmdrWXY0Y1Q3b20vMUxacDgyOG54V0ljbElxckRxdGx0akU4WXEyT3M=
     delayedInitialization: 0
     cameraDeviceModeSetting: -1
     maxSimultaneousImageTargets: 1
@@ -42,15 +42,6 @@ MonoBehaviour:
       DistortionCoefficients: {x: 0, y: 0}
       FieldOfView: {x: 0, y: 0, z: 0, w: 0}
       ContainsMagnet: 0
-  databaseLoad:
-    dataSetsToLoad:
-    - VuforiaMars_Images
-    - VuforiaMars_VuMark
-    - Biosphere2
-    dataSetsToActivate:
-    - VuforiaMars_Images
-    - VuforiaMars_VuMark
-    - Biosphere2
   videoBackground:
     clippingMode: 0
     numDivisions: 2
@@ -59,9 +50,9 @@ MonoBehaviour:
     matteShader: {fileID: 15310, guid: 0000000000000000f000000000000000, type: 0}
     videoBackgroundEnabled: 1
   deviceTracker:
-    autoInitTracker: 1
-    autoStartTracker: 1
-    trackingMode: 1
+    autoInitTracker: 0
+    autoStartTracker: 0
+    trackingMode: 0
     posePrediction: 0
     modelCorrectionMode: 0
     modelTransformEnabled: 0
