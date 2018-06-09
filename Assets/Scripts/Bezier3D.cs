@@ -2,19 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//Makes the fluxes delete somehow
 public class Bezier3D : MonoBehaviour
 {
-    public Vector3 start = new Vector3(0, 0, 0);
-    public Vector3 end = new Vector3(1, 1, 0);
-    public Vector3 handle1 = new Vector3(0, 1, 0);
-    public Vector3 handle2 = new Vector3(1, 0, 0);
+    [SerializeField] 
+    private Vector3 start;
+    public Vector3 Start { get { return start; } set { start = value; GetComponent<MeshFilter>().mesh = CreateMesh(); } }
+    
+    [SerializeField]
+    private Vector3 end;
+    public Vector3 End { get { return end; } set { end = value; GetComponent<MeshFilter>().mesh = CreateMesh(); } }
+    
+    [SerializeField]
+    private Vector3 handle1;
+    public Vector3 Handle1 { get { return handle1; } set { handle1 = value; BezierMesh = CreateMesh(); } }
+    
+    [SerializeField]
+    private Vector3 handle2;
+    public Vector3 Handle2 { get { return handle2; } set { handle2 = value; BezierMesh = CreateMesh(); } }
+
+    private Vector3 upNormal;
+    public Vector3 UpNormal { get { return upNormal; } set { upNormal = value; } }
+
+    public Mesh BezierMesh { get { return GetComponent<MeshFilter>().mesh; } set { GetComponent<MeshFilter>().mesh = value; } }
+    
     public int resolution = 12;
     public float thickness = 0.25f;
-
-    public void Start()
-    {
-        GetComponent<MeshFilter>().mesh = CreateMesh();
-    }
 
     //cacluates point coordinates on a quadratic curve
     public static Vector3 PointOnPath(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
@@ -48,8 +61,7 @@ public class Bezier3D : MonoBehaviour
         List<Vector3> vertList = new List<Vector3>();
         List<int> triList = new List<int>();
         List<Vector2> uvList = new List<Vector2>();
-        Vector3 upNormal = new Vector3(0, 0, -1);
-
+        
         triList.AddRange(new int[] {                     
 			2, 1, 0,    //start face
 			0, 3, 2
@@ -141,5 +153,10 @@ public class Bezier3D : MonoBehaviour
         mesh.RecalculateBounds();
 
         return mesh;
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        SendMessageUpwards("TriggerExit", other);
     }
 }

@@ -14,7 +14,7 @@ public class SunflowerController : MonoBehaviour {
     float scaleRange = 0.25f;
     float rotRange = 25f;
 
-    GasExchanger Transpirator;
+    Emitter Transpirator;
 
 	// Use this for initialization
 	void Start () 
@@ -24,7 +24,7 @@ public class SunflowerController : MonoBehaviour {
         Sol = GameObject.Find("Sol");
         tText = GameObject.Find("ToggleText");
 
-        Transpirator = GetComponent<GasExchanger>();
+        Transpirator = GetComponent<Emitter>();
 	}
 	
 	// Update is called once per frame

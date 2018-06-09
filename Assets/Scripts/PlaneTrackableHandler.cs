@@ -76,7 +76,7 @@ public class PlaneTrackableHandler : MonoBehaviour, ITrackableEventHandler
 
     protected virtual void OnTrackingFound()
     {
-        GetComponentInChildren<GasExchanger>().StartEmitter();
+        GetComponentInChildren<Emitter>().StartEmitter();
 
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
@@ -98,7 +98,7 @@ public class PlaneTrackableHandler : MonoBehaviour, ITrackableEventHandler
 
     protected virtual void OnTrackingLost()
     {
-        GetComponentInChildren<GasExchanger>().StopEmitter();
+        GetComponentInChildren<Emitter>().StopEmitter();
 
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);

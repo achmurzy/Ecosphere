@@ -70,7 +70,7 @@ public class DemoTrackableHandler : MonoBehaviour, ITrackableEventHandler
 
     protected virtual void OnTrackingFound()
     {
-        GetComponentInChildren<GasExchanger>().StartEmitter();
+        GetComponentInChildren<Emitter>().StartEmitter();
         GetComponentInChildren<SolController>().Sunrise();
 
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
@@ -93,7 +93,7 @@ public class DemoTrackableHandler : MonoBehaviour, ITrackableEventHandler
 
     protected virtual void OnTrackingLost()
     {
-        GetComponentInChildren<GasExchanger>().StopEmitter();
+        GetComponentInChildren<Emitter>().StopEmitter();
         GetComponentInChildren<SolController>().Sunset();
 
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
