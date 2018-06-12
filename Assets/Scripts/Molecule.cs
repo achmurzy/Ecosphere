@@ -20,15 +20,14 @@ public class Molecule : MonoBehaviour {
 	void Update () {
         Lifespan += Time.deltaTime;
         if (Lifespan > exchanger.Lifetime)
-            GameObject.Destroy(this);
+            GameObject.Destroy(this.gameObject);
 	}
 
     void OnTriggerExit(Collider other)
     {
         if (other.transform == exchanger.transform)
         {
-            GameObject.Destroy(this);
-            Debug.Log("Molecule Destroyed by exit");
+            GameObject.Destroy(this.gameObject);
         }
     }
 }

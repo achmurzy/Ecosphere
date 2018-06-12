@@ -7,6 +7,7 @@ public class FluxRibbon : MonoBehaviour {
     public bool Wiggle = false;
     public float Amplitude = 1f;
     public float Frequency = 1f;
+    public float Lifespan { get; private set; }
 
     public Vector3 wiggleAxis1 = Vector3.up;
     public Vector3 wiggleAxis2 = Vector3.down;
@@ -34,15 +35,19 @@ public class FluxRibbon : MonoBehaviour {
     // Use this for initialization
 	void Start () 
     {
-        
+        Lifespan = 0;   
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+        Lifespan += Time.deltaTime;
+        if (Lifespan > fluxer.Lifetime)
+            GameObject.Destroy(this.gameObject);
+
         //For Beziers along the x-axis and controls along the y-axis, the z-axis must point toward the camera
         bezier.UpNormal = (transform.position - Camera.main.transform.position).normalized;
-        transform.rotation = Quaternion.LookRotation(initTraj, bezier.UpNormal);
+        //transform.rotation = Quaternion.LookRotation(initTraj, bezier.UpNormal);
         transform.position += transform.forward.normalized * fluxer.EmissionForce;
         if (Wiggle)
         {
@@ -61,7 +66,9 @@ public class FluxRibbon : MonoBehaviour {
 
     public void StartFluxing(Vector3 target, Emitter flux)
     {
+        wiggleLerp = Random.Range(0f, 1f);
         initTraj = target;
+        this.transform.forward = initTraj;
         fluxer = flux;
     }
 
@@ -69,7 +76,6 @@ public class FluxRibbon : MonoBehaviour {
     {
         if (other.transform == fluxer.transform)
         {
-            Debug.Log("Fluxer destroyed by exit: " + Vector3.Distance(this.transform.position, Vector3.zero));
             GameObject.Destroy(transform.GetChild(0).gameObject);
             GameObject.Destroy(this);
         }

@@ -5,6 +5,7 @@ using Vuforia;
 
 public class Emitter : MonoBehaviour {
 
+    public Vector3 SpatialCenter = Vector3.zero;
     public Vector3 SpatialExtent = Vector3.one;
     public Vector3 EmissionTrajectory = Vector3.one;
     public float EmissionRate = 0.1f;
@@ -66,8 +67,8 @@ public class Emitter : MonoBehaviour {
     void AddFlux()
     {
         GameObject newFlux = GameObject.Instantiate(Flux) as GameObject;
-        newFlux.transform.position = this.transform.position + (this.transform.right * Random.Range(-SpatialExtent.x, SpatialExtent.x)) +
-            (this.transform.up * Random.Range(-SpatialExtent.y, SpatialExtent.y)) + (this.transform.forward * Random.Range(-SpatialExtent.z, SpatialExtent.z));
+        newFlux.transform.position = this.transform.position + SpatialCenter + (this.transform.right * Random.Range(-SpatialExtent.x, SpatialExtent.x)) +
+                                        (this.transform.up * Random.Range(-SpatialExtent.y, SpatialExtent.y)) + (this.transform.forward * Random.Range(-SpatialExtent.z, SpatialExtent.z));
         Vector3 trajectory = (this.transform.right * Random.Range(-EmissionTrajectory.x, EmissionTrajectory.x)) +
             (this.transform.up * Random.Range(-EmissionTrajectory.y, EmissionTrajectory.y)) + (this.transform.forward * Random.Range(-EmissionTrajectory.z, EmissionTrajectory.z));
         newFlux.GetComponent<FluxRibbon>().StartFluxing(trajectory.normalized, this);

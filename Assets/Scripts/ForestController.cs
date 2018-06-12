@@ -19,9 +19,11 @@ public class ForestController : EcosystemController
 	// Use this for initialization
 	void Start () 
     {
-        soilPlane.transform.localScale = new Vector3(forestExtent.x, 10, forestExtent.y);
-        soilPlane.GetComponent<Emitter>().SpatialExtent = Vector3.zero;
+        soilPlane.transform.localScale = new Vector3(forestExtent.x, 1, forestExtent.y)/5;
+        soilPlane.GetComponent<Emitter>().SpatialCenter = new Vector3(0, -0.5f, 0);
+        soilPlane.GetComponent<Emitter>().SpatialExtent = new Vector3(forestExtent.x, 0, forestExtent.y);
         soilPlane.GetComponent<Emitter>().DestructionTrigger.size = new Vector3(forestExtent.x, 1, forestExtent.y);
+        soilPlane.GetComponent<Emitter>().EmissionForce = 0;
         soilPlane.GetComponent<Emitter>().StartEmitter();
 
         StartCoroutine("Succession");

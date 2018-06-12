@@ -8,7 +8,7 @@ public class Tree : MonoBehaviour
     private float stemWidth, stemHeight;
     Emitter respirator;
     public const float HEIGHT_SCALING = 5f, CROWN_SCALING = 5f, CO2_SCALING = 0.1f;
-    public const float MORTALITY = 2f, EMISSION_SCALING = 100f;
+    public const float MORTALITY = 2f, EMISSION_SCALING = 1f, TRIGGER_SCALING = 2f;
     public float StemWidth 
     { 
         get { return stemWidth; } 
@@ -26,7 +26,7 @@ public class Tree : MonoBehaviour
             StemHeight = stemWidth * HEIGHT_SCALING; 
             GetComponentInChildren<Crown>().CrownRadius = stemWidth * CROWN_SCALING;
             respirator.SpatialExtent = new Vector3(stemWidth, stemHeight, stemWidth);
-            respirator.DestructionTrigger.size = new Vector3(stemWidth, stemHeight, stemWidth) * 2f;
+            respirator.DestructionTrigger.size = Vector3.one * TRIGGER_SCALING; //The trigger zone, as a child of the stem, scales with it directly , so we only add a scalar coefficient
             respirator.EmissionRate = 1f / stemHeight * EMISSION_SCALING;
         } 
     }
