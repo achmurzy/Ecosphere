@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Ocean : MonoBehaviour {
 
-    public Slider HeatSlider, AcidSlider;   //CO2 is really driving these. Can't we just use that?
     MeshCollider oceanCollider;
     OceanController oceanController;
 
@@ -38,19 +37,19 @@ public class Ocean : MonoBehaviour {
         
 	}
 
-    public void HeatOcean()
+    public void LerpOceanColor(float heatValue)
     {
-        this.GetComponent<MeshRenderer>().material.color = Color.Lerp(Color.white, Color.red, HeatSlider.value);
+        this.GetComponent<MeshRenderer>().material.color = Color.Lerp(Color.white, Color.red, heatValue);
     }
 
-    public void Acidify()
+    public void LerpSeawaterColor(float acidValue)
     {
-        Seawater.GetComponent<MeshRenderer>().material.color = Color.Lerp(seawaterColor, acidColor, AcidSlider.value);
+        Seawater.GetComponent<MeshRenderer>().material.color = Color.Lerp(seawaterColor, acidColor, acidValue);
     }
 
     public void OnCollisionEnter(Collision collision)
     {
-        float prob = HeatSlider.value;
+        float prob = oceanController.OceanAcidity;
         float val = Random.RandomRange(0f, 1f);
         if (val > prob)
         {

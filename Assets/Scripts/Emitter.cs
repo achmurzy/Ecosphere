@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 
+//Emitter geometry is always symmetrical... need to fix
 public class Emitter : MonoBehaviour {
 
     public Vector3 SpatialCenter = Vector3.zero;
@@ -57,8 +58,10 @@ public class Emitter : MonoBehaviour {
             (this.transform.up * Random.Range(-SpatialExtent.y, SpatialExtent.y)) + (this.transform.forward * Random.Range(-SpatialExtent.z, SpatialExtent.z));
         
         Rigidbody molBody = newMol.GetComponent<Rigidbody>();
-        Vector3 planeOffset = new Vector3(Random.Range(-SpatialExtent.x, SpatialExtent.x), 0, Random.Range(-SpatialExtent.y, SpatialExtent.y));
-        molBody.AddForce((this.transform.up+planeOffset) * EmissionForce);
+        Vector3 trajectory = (this.transform.right * Random.Range(-EmissionTrajectory.x, EmissionTrajectory.x)) +
+            (this.transform.up * Random.Range(-EmissionTrajectory.y, EmissionTrajectory.y)) + (this.transform.forward * Random.Range(-EmissionTrajectory.z, EmissionTrajectory.z));
+
+        molBody.AddForce(trajectory.normalized * EmissionForce);
         molBody.AddTorque(Random.insideUnitSphere);
 
         newMol.GetComponent<Molecule>().exchanger = this;

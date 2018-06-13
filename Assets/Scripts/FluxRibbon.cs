@@ -77,7 +77,7 @@ public class FluxRibbon : MonoBehaviour {
         if (other.transform == fluxer.transform)
         {
             GameObject.Destroy(transform.GetChild(0).gameObject);
-            GameObject.Destroy(this);
+            GameObject.Destroy(this.gameObject);
         }
     }
 }
