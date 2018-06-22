@@ -15,11 +15,16 @@ public class Panel : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        heatEmitter.EmissionTrajectory = new Vector3(0, 1, 0);
+        Bounds emissionBounds = new Bounds();
+        emissionBounds.min = -heatEmitter.gameObject.transform.localScale / 2;
+        emissionBounds.max = heatEmitter.gameObject.transform.localScale / 2;
+        heatEmitter.LowerEmissionTrajectory = new Vector3(0, 0, 0);
+        heatEmitter.UpperEmissionTrajectory = new Vector3(0, 1, 0);
+        heatEmitter.SpatialExtent = emissionBounds;
+
         heatEmitter.DestructionTrigger.size = new Vector3(1, 100, 1);
         heatEmitter.EmissionForce = HEAT_FLUX_FORCE;
         heatEmitter.EmissionRate = HEAT_FLUX_RATE;
-        heatEmitter.SpatialExtent = heatEmitter.gameObject.transform.localScale/2;
         heatEmitter.StartEmitter();
 	}
 	

@@ -6,6 +6,7 @@ using Vuforia;
 class EcosystemEventHandler : DefaultTrackableEventHandler
 {
     public ARController arController;
+    public GameObject Ecosystem;
     private Dictionary<string, object> eventObject;
 
     private void Awake()
@@ -17,8 +18,13 @@ class EcosystemEventHandler : DefaultTrackableEventHandler
     protected override void OnTrackingFound()
     {
         Analytics.CustomEvent("Trackable Found", eventObject);
-        arController.LoadScene(this.gameObject);
-        /*var rendererComponents = GetComponentsInChildren<Renderer>(true);
+
+        if (arController.CurrentTrackedEcosystem == this.gameObject.name)
+            Ecosystem.GetComponent<EcosystemController>().PlayScene();
+        else
+            Ecosystem = arController.LoadScene(this.gameObject);    //Destroys last ecosystem
+
+        var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);
 
@@ -32,15 +38,20 @@ class EcosystemEventHandler : DefaultTrackableEventHandler
 
         // Enable canvas':
         foreach (var component in canvasComponents)
-            component.enabled = true;*/
+            component.enabled = true;
     }
 
 
     protected override void OnTrackingLost()
     {
         Analytics.CustomEvent("Trackable Lost", eventObject);
-        GameObject.Destroy(this.transform.GetChild(0).gameObject);
-        /*var rendererComponents = GetComponentsInChildren<Renderer>(true);
+
+        if (Ecosystem != null)
+        {
+            Ecosystem.GetComponent<EcosystemController>().PauseScene();
+        }
+
+        var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);
 
@@ -54,6 +65,6 @@ class EcosystemEventHandler : DefaultTrackableEventHandler
 
         // Disable canvas':
         foreach (var component in canvasComponents)
-            component.enabled = false;*/
+            component.enabled = false;
     }
 }

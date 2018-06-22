@@ -74,7 +74,15 @@ public class FluxRibbon : MonoBehaviour {
 
     public void TriggerExit(Collider other)
     {
-        if (other.transform == fluxer.transform)
+        if (fluxer != null)
+        {
+            if (other.transform == fluxer.transform)
+            {
+                GameObject.Destroy(transform.GetChild(0).gameObject);
+                GameObject.Destroy(this.gameObject);
+            }
+        }
+        else
         {
             GameObject.Destroy(transform.GetChild(0).gameObject);
             GameObject.Destroy(this.gameObject);

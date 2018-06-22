@@ -8,6 +8,7 @@ public class Molecule : MonoBehaviour {
     public Vector3 BirthPosition { get; private set; }
     public float MolecularScale = 0.05f;
     public float Lifespan { get; private set;  }
+    public float Lifetime { get; set; }
     
     void Start () 
     {
@@ -19,15 +20,20 @@ public class Molecule : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Lifespan += Time.deltaTime;
-        if (Lifespan > exchanger.Lifetime)
+        if (Lifespan > Lifetime)
             GameObject.Destroy(this.gameObject);
 	}
 
     void OnTriggerExit(Collider other)
     {
-        if (other.transform == exchanger.transform)
+        if (exchanger != null)
         {
-            GameObject.Destroy(this.gameObject);
+            if (other.transform == exchanger.transform)
+            {
+                GameObject.Destroy(this.gameObject);
+            }
         }
+        else
+            GameObject.Destroy(this.gameObject);
     }
 }

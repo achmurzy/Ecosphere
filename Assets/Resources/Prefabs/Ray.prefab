@@ -22,11 +22,11 @@ GameObject:
   - component: {fileID: 33490408154142704}
   - component: {fileID: 136407646464290722}
   - component: {fileID: 23018056614264524}
-  - component: {fileID: 114006463720976922}
   - component: {fileID: 54044426654447202}
-  m_Layer: 0
+  - component: {fileID: 114775388118444974}
+  m_Layer: 10
   m_Name: Ray
-  m_TagString: Untagged
+  m_TagString: Atmosphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114006463720976922
+--- !u!114 &114775388118444974
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1815810304284124}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df177005e45dbb4d910a25e1acf518c, type: 3}
+  m_Script: {fileID: 11500000, guid: 92057545d8cdbe742b39bf73cbdfa2f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sol: {fileID: 0}
@@ -120,7 +120,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1815810304284124}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2

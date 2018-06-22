@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4652170021486548}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SolPivot
-  m_TagString: Untagged
+  m_TagString: Atmosphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4093590344934142}
   - component: {fileID: 108914537555272738}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,9 +54,9 @@ GameObject:
   - component: {fileID: 135605294446847798}
   - component: {fileID: 23141363588321352}
   - component: {fileID: 114159476615822522}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sol
-  m_TagString: Untagged
+  m_TagString: Atmosphere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,7 +202,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705321146042356}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

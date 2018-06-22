@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Consider implementing quantum yield to model crown transmissivity, and connect to ray params
-public class Ray : MonoBehaviour {
+public class SolarRay : MonoBehaviour {
 
     float rayLerp = 0;
     public const float LIGHT_SPEED = 1f;

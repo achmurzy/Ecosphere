@@ -15,7 +15,7 @@ public class InputListener : MonoBehaviour {
 
     void Awake()
     {
-        Input.multiTouchEnabled = false;
+        Input.multiTouchEnabled = true;
     }
 
 	// Use this for initialization

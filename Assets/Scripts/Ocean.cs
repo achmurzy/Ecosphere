@@ -15,20 +15,40 @@ public class Ocean : MonoBehaviour {
     Material seawaterMat;
     Color seawaterColor, acidColor;
 
+    public Slider HeatSlider, AcidSlider;
+    public float OceanSurfaceTemperature { get; set; }
+    public float OceanAcidity { get; set; }
+    public const float PARTICLE_ACIDIDTY = 0.01f;
+
     void Awake()
     {
         oceanController = GetComponentInParent<OceanController>();
-
-        seawaterMat = Material.Instantiate(Resources.Load("Materials/Seawater") as Material);
-        seawaterColor = seawaterMat.color;
-        acidColor = seawaterColor;
-        acidColor.b = 85f;
     }
 
 	// Use this for initialization
 	void Start () 
     {
-        Seawater = GameObject.Find("Seawater");	
+        Seawater = GameObject.Find("Seawater");
+
+        Seawater.transform.localScale = new Vector3(2*OceanController.OCEAN_X, 2*OceanController.OCEAN_Y, 2*OceanController.OCEAN_Z);
+        Seawater.transform.localPosition = new Vector3(0, OceanController.OCEAN_Y, 0);
+
+        this.transform.localScale = new Vector3((1f / 5f) * OceanController.OCEAN_X, OceanController.OCEAN_Y, (1f / 5f) * OceanController.OCEAN_Z);
+        this.transform.localPosition = new Vector3(0, (OceanController.OCEAN_Y * 2) + 0.01f, 0);
+        Bounds emissionBounds = new Bounds();
+        emissionBounds.center = new Vector3(0, -5, 0);
+        emissionBounds.min = new Vector3(-OceanController.OCEAN_X, 0, -OceanController.OCEAN_Z);
+        emissionBounds.max = new Vector3(OceanController.OCEAN_X, 0, OceanController.OCEAN_Z);
+        this.GetComponent<Emitter>().SpatialExtent = emissionBounds;
+        
+        this.GetComponent<Emitter>().DestructionTrigger.size = new Vector3(OceanController.OCEAN_X, 5, OceanController.OCEAN_Z);
+        this.GetComponent<Emitter>().EmissionForce = 0;
+        this.GetComponent<Emitter>().StartExchanger();
+
+        seawaterMat = Material.Instantiate(Resources.Load("Materials/Seawater") as Material);
+        seawaterColor = seawaterMat.color;
+        acidColor = seawaterColor;
+        acidColor.b = 85f;
 	}
 	
 	// Update is called once per frame
@@ -36,6 +56,19 @@ public class Ocean : MonoBehaviour {
     {
         
 	}
+
+    public void HeatOcean()
+    {
+        OceanSurfaceTemperature = HeatSlider.value;
+        LerpOceanColor(OceanSurfaceTemperature);
+        //BroadcastMessage("StressCoral", HeatSlider.value);
+    }
+
+    public void AcidifyOcean()
+    {
+        OceanAcidity += PARTICLE_ACIDIDTY;
+        LerpSeawaterColor(OceanAcidity);
+    }
 
     public void LerpOceanColor(float heatValue)
     {
@@ -49,7 +82,7 @@ public class Ocean : MonoBehaviour {
 
     public void OnCollisionEnter(Collision collision)
     {
-        float prob = oceanController.OceanAcidity;
+        float prob = OceanAcidity;
         float val = Random.RandomRange(0f, 1f);
         if (val > prob)
         {

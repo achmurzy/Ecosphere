@@ -37,6 +37,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4286088538618714}
+  - component: {fileID: 114173892213541280}
   m_Layer: 0
   m_Name: Biodome
   m_TagString: Untagged
@@ -179,6 +180,17 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114173892213541280
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1799755119499654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d9bbbe484f62a4ab96659822d8f577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135525993184330488
 SphereCollider:
   m_ObjectHideFlags: 1

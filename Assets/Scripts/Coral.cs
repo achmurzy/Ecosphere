@@ -12,7 +12,7 @@ public class Coral : MonoBehaviour
     public const float VERTICAL_GROWTH = 2.5f, BRANCH_PROB = 0.1f, CHILD_PROPORTION = 0.22f;
     
     //Each coral receives 10 growth iterations.
-    private float maxGrowth = 0.1f;
+    private float maxGrowth = 0.15f;
     public float MaxGrowth { get; set; }
     private float growthRate = 0.01f;
     public float GrowthRate { get; set; }
@@ -53,21 +53,15 @@ public class Coral : MonoBehaviour
 
     public const float XANTH_EMISSION_RATE = 5f;
     Material coralMat;
-    Color coralColor;
+    Color coralColor = Color.black;
     ParticleSystem xanth;
 
     void Awake()
     {
         Branch = Resources.Load("Prefabs/Coral") as GameObject;
         coralMat = Material.Instantiate(Resources.Load("Materials/Coral") as Material);
-        coralColor = coralMat.color;
-
+        Branch.GetComponent<MeshRenderer>().material = coralMat;
         xanth = GetComponentInChildren<ParticleSystem>();
-        var particleMain = xanth.main;
-        particleMain.startColor = coralColor;
-        var particleEmission = xanth.emission;
-        particleEmission.rateOverTime = 0;
-
         RightAxis = true;
         coralSize = 0;
     }
@@ -75,6 +69,15 @@ public class Coral : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+        if (coralColor == Color.black)
+            coralColor = Random.Range(0f, 1f) > 0.5f ? Color.yellow : Color.red;
+        this.GetComponent<MeshRenderer>().material.color = coralColor;
+        
+        var particleMain = xanth.main;
+        particleMain.startColor = coralColor;
+        var particleEmission = xanth.emission;
+        particleEmission.rateOverTime = 0;
+
         StartCoroutine("CoralGrowth");
 	}
 	
@@ -89,12 +92,12 @@ public class Coral : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.RandomRange(1f, 1.5f));
-            BranchCoral();
             if (coralSize >= maxGrowth)
             {
                 StopCoroutine("CoralGrowth");
                 yield break;
             }
+            BranchCoral();
             CoralSize += growthRate;
         }
     }
@@ -143,7 +146,18 @@ public class Coral : MonoBehaviour
         child.RightAxis = !RightAxis;
         child.MaxGrowth = this.maxGrowth * CHILD_PROPORTION;
         child.GrowthRate = this.growthRate * CHILD_PROPORTION;
+        child.coralColor = this.coralColor;
 
         child.StressCoral(this.tempStress);
+    }
+
+    void OnEnable()
+    {
+        StartCoroutine("CoralGrowth");
+    }
+
+    void OnDisable()
+    {
+        StopCoroutine("CoralGrowth");
     }
 }

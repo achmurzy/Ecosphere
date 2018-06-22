@@ -4,81 +4,45 @@ using UnityEngine;
 using UnityEngine.UI;
 using Vuforia;
 
-//The Ocean needs to be an Aqua cube. Make it
-public class OceanController : MonoBehaviour {
+public class OceanController : EcosystemController 
+{
+    public const float OCEAN_X = 10, OCEAN_Y = 2, OCEAN_Z = 10;
+    public const string CORAL_LAYER = "Vegetation", ATMOSPHERE_LAYER = "Atmosphere", OCEAN_LAYER = "Soil";
 
-    Vector3 oceanExtent = new Vector3(10, 10, 10);
-    List<Coral> reef;
-    public const int REEF_CAPACITY = 25, SUCCESSION_RATE = 3;
-    public GameObject OceanSurface, Seawater, Sol;
-
-    public Slider HeatSlider, AcidSlider;   //CO2 is really driving these. Can't we just use that?
-    public float OceanSurfaceTemperature { get; set; }
-    public float OceanAcidity { get; set; }
-    public const float PARTICLE_ACIDIDTY = 0.01f;
+    public Toggle OceanToggle, CoralToggle, AtmosphereToggle;
 
     void Awake()
     {
-        reef = new List<Coral>();
-        Sol = GameObject.Find("Sol");
-        OceanSurface = GameObject.Find("Water");
-        Seawater = GameObject.Find("Seawater");
+        base.Awake();
     }
 
     // Use this for initialization
     void Start()
     {
-        Seawater.transform.localScale = oceanExtent*2;
-        Seawater.transform.localPosition = new Vector3(0, oceanExtent.y, 0);
-
-        OceanSurface.transform.localScale = oceanExtent * 2/10;
-        OceanSurface.transform.localPosition = new Vector3(0, (oceanExtent.y * 2) + 0.01f, 0);
-        OceanSurface.GetComponent<Emitter>().SpatialCenter = new Vector3(0, -5, 0);
-        OceanSurface.GetComponent<Emitter>().SpatialExtent = new Vector3(oceanExtent.x, 0, oceanExtent.y);
-        OceanSurface.GetComponent<Emitter>().DestructionTrigger.size = new Vector3(oceanExtent.x, 5, oceanExtent.y);
-        OceanSurface.GetComponent<Emitter>().EmissionForce = 0;
-        OceanSurface.GetComponent<Emitter>().EmissionTrajectory = new Vector3();
-        OceanSurface.GetComponent<Emitter>().StartExchanger();
-
-        StartCoroutine("Succession");
+        base.Start();
     }
 
     // Update is called once per frame
     void Update()
-    { }
-
-    IEnumerator Succession()
     {
-        while (true)
+        base.Update();
+    }
+
+    
+
+    public override bool CheckLayerEnabled(string layer)
+    {
+        switch (layer)
         {
-            yield return new WaitForSeconds(SUCCESSION_RATE);
-            if (reef.Count < REEF_CAPACITY)
-            {
-                GameObject coral = GameObject.Instantiate(Resources.Load("Prefabs/Coral")) as GameObject;
-                coral.transform.parent = this.gameObject.transform;
-                coral.transform.localPosition = new Vector3(Random.RandomRange(-oceanExtent.x, oceanExtent.x), 0, Random.RandomRange(-oceanExtent.y, oceanExtent.y));
-                Coral newCoral = coral.GetComponent<Coral>();
-                newCoral.StressCoral(HeatSlider.value);
-                reef.Add(newCoral);
-            }
+            case OCEAN_LAYER:
+                return OceanToggle.isOn;
+            case CORAL_LAYER:
+                return CoralToggle.isOn;
+            case ATMOSPHERE_LAYER:
+                return AtmosphereToggle.isOn;
+            default:
+                Debug.Log("Invalid default return: " + layer);
+                return false;
         }
-    }
-
-    public void HeatOcean()
-    {
-        OceanSurfaceTemperature = HeatSlider.value;
-        OceanSurface.GetComponent<Ocean>().LerpOceanColor(OceanSurfaceTemperature);
-        BroadcastMessage("StressCoral", HeatSlider.value);
-    }
-
-    public void AcidifyOcean()
-    {
-        OceanAcidity += PARTICLE_ACIDIDTY;
-        OceanSurface.GetComponent<Ocean>().LerpSeawaterColor(OceanAcidity);
-    }
-
-    public void RemoveCoral(Coral coral)
-    {
-        reef.Remove(coral);
     }
 }

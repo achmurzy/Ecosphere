@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 114161457330130096}
   - component: {fileID: 54075766638359914}
   - component: {fileID: 65205644573873340}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Ribbon
-  m_TagString: Untagged
+  m_TagString: Voltaic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,9 +40,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4098400265578594}
   - component: {fileID: 114439269995582990}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SensibleHeat
-  m_TagString: Untagged
+  m_TagString: Voltaic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,7 +138,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1795105856201234}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

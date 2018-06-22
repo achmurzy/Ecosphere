@@ -44,9 +44,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/GoogleARCore/Examples/ComputerVision/Scenes/ComputerVision.unity
     guid: 5ef0f7f7f2c7b4285b707265348bbffd
-  - enabled: 0
-    path: Assets/Resources/Scenes/Ocean.unity
-    guid: b841d1b68566fa949b647ca3a6d11a08
   - enabled: 1
     path: Assets/Resources/Scenes/AR_Scene.unity
     guid: 0e894c5f09a82c14caaead97877f9c3d

@@ -25,7 +25,11 @@ public class Tree : MonoBehaviour
             }
             StemHeight = stemWidth * HEIGHT_SCALING; 
             GetComponentInChildren<Crown>().CrownRadius = stemWidth * CROWN_SCALING;
-            respirator.SpatialExtent = new Vector3(stemWidth, stemHeight, stemWidth);
+            Bounds emissionBounds = new Bounds();
+            emissionBounds.min = Vector3.zero;
+            emissionBounds.max = new Vector3(stemWidth, stemHeight, stemWidth);
+            respirator.SpatialExtent = emissionBounds;
+            
             respirator.DestructionTrigger.size = Vector3.one * TRIGGER_SCALING; //The trigger zone, as a child of the stem, scales with it directly , so we only add a scalar coefficient
             respirator.EmissionRate = 1f / stemHeight * EMISSION_SCALING;
         } 

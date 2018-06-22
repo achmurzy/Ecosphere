@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 114816846307875160}
   - component: {fileID: 54353414036872656}
   - component: {fileID: 65986083044754102}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Ribbon
-  m_TagString: Untagged
+  m_TagString: Soil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,9 +40,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4644220438185554}
   - component: {fileID: 114976798168373274}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WaterFlux
-  m_TagString: Untagged
+  m_TagString: Soil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,7 +89,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: bd75867c56630484c88c885b54268c8d, type: 2}
+  - {fileID: 2100000, guid: 4027cc8bd321f1040a43575c9758fde9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -138,7 +138,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1199619625512416}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

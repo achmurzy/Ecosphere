@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 
-//Emitter geometry is always symmetrical... need to fix
 public class Emitter : MonoBehaviour {
 
-    public Vector3 SpatialCenter = Vector3.zero;
-    public Vector3 SpatialExtent = Vector3.one;
-    public Vector3 EmissionTrajectory = Vector3.one;
+    public Bounds SpatialExtent;
+    public Vector3 LowerEmissionTrajectory = -Vector3.one, UpperEmissionTrajectory = Vector3.one;
     public float EmissionRate = 0.1f;
     public float EmissionForce = 5f;
 
@@ -54,26 +52,30 @@ public class Emitter : MonoBehaviour {
     void AddMolecule()
     {
         GameObject newMol = GameObject.Instantiate(Molecule) as GameObject;
-        newMol.transform.position = this.transform.position + (this.transform.right * Random.Range(-SpatialExtent.x, SpatialExtent.x)) + 
-            (this.transform.up * Random.Range(-SpatialExtent.y, SpatialExtent.y)) + (this.transform.forward * Random.Range(-SpatialExtent.z, SpatialExtent.z));
+        newMol.transform.position = this.transform.position + SpatialExtent.center + (this.transform.right * Random.Range(SpatialExtent.min.x, SpatialExtent.max.x)) + 
+            (this.transform.up * Random.Range(SpatialExtent.min.y, SpatialExtent.max.y)) + (this.transform.forward * Random.Range(SpatialExtent.min.z, SpatialExtent.max.z));
         
         Rigidbody molBody = newMol.GetComponent<Rigidbody>();
-        Vector3 trajectory = (this.transform.right * Random.Range(-EmissionTrajectory.x, EmissionTrajectory.x)) +
-            (this.transform.up * Random.Range(-EmissionTrajectory.y, EmissionTrajectory.y)) + (this.transform.forward * Random.Range(-EmissionTrajectory.z, EmissionTrajectory.z));
+        Vector3 trajectory = (this.transform.right * Random.Range(LowerEmissionTrajectory.x, UpperEmissionTrajectory.x)) +
+            (this.transform.up * Random.Range(LowerEmissionTrajectory.y, UpperEmissionTrajectory.y)) + (this.transform.forward * Random.Range(LowerEmissionTrajectory.z, UpperEmissionTrajectory.z));
 
         molBody.AddForce(trajectory.normalized * EmissionForce);
         molBody.AddTorque(Random.insideUnitSphere);
 
         newMol.GetComponent<Molecule>().exchanger = this;
+        newMol.GetComponent<Molecule>().Lifetime = this.Lifetime;
+        newMol.transform.SetParent(FindObjectOfType<EcosystemController>().transform, false);
     }
 
     void AddFlux()
     {
         GameObject newFlux = GameObject.Instantiate(Flux) as GameObject;
-        newFlux.transform.position = this.transform.position + SpatialCenter + (this.transform.right * Random.Range(-SpatialExtent.x, SpatialExtent.x)) +
-                                        (this.transform.up * Random.Range(-SpatialExtent.y, SpatialExtent.y)) + (this.transform.forward * Random.Range(-SpatialExtent.z, SpatialExtent.z));
-        Vector3 trajectory = (this.transform.right * Random.Range(-EmissionTrajectory.x, EmissionTrajectory.x)) +
-            (this.transform.up * Random.Range(-EmissionTrajectory.y, EmissionTrajectory.y)) + (this.transform.forward * Random.Range(-EmissionTrajectory.z, EmissionTrajectory.z));
+        newFlux.transform.position = this.transform.position + SpatialExtent.center + (this.transform.right * Random.Range(SpatialExtent.min.x, SpatialExtent.max.x)) +
+            (this.transform.up * Random.Range(SpatialExtent.min.y, SpatialExtent.max.y)) + (this.transform.forward * Random.Range(SpatialExtent.min.z, SpatialExtent.max.z));
+        Vector3 trajectory = (this.transform.right * Random.Range(LowerEmissionTrajectory.x, UpperEmissionTrajectory.x)) +
+            (this.transform.up * Random.Range(LowerEmissionTrajectory.y, UpperEmissionTrajectory.y)) + (this.transform.forward * Random.Range(LowerEmissionTrajectory.z, UpperEmissionTrajectory.z));
+        
+        newFlux.transform.SetParent(FindObjectOfType<EcosystemController>().transform, false);
         newFlux.GetComponent<FluxRibbon>().StartFluxing(trajectory.normalized, this);
     }
 

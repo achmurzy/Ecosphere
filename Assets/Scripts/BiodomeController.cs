@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BiodomeController : MonoBehaviour {
+public class BiodomeController : EcosystemController 
+{
 
 	// Use this for initialization
 	void Start () {
@@ -11,6 +12,6 @@ public class BiodomeController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        base.Update();
 	}
 }

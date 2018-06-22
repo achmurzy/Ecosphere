@@ -70,4 +70,14 @@ public class Voltaic : MonoBehaviour, IPhotosensitive
     {
         StopAllCoroutines();
     }
+
+    void OnEnable()
+    {
+
+    }
+
+    void OnDisable()
+    {
+
+    }
 }

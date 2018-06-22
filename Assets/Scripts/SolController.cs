@@ -29,7 +29,7 @@ public class SolController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        Pivot.transform.Rotate(Pivot.transform.forward * SolarPeriod);
+        //Pivot.transform.Rotate(Pivot.transform.forward * SolarPeriod);
         transform.LookAt(Vector3.zero);
         if (transform.position.y > 0)
         {
@@ -44,13 +44,13 @@ public class SolController : MonoBehaviour
     void AddRay()
     {
         GameObject newRay = GameObject.Instantiate(Beam, this.transform) as GameObject;
-        newRay.GetComponent<Ray>().Sol = this;
+        newRay.GetComponent<SolarRay>().Sol = this;
 
         newRay.transform.LookAt(Vector3.zero);
         newRay.transform.Rotate(90, 0, 0);
         Vector2 offset = Random.insideUnitCircle * Vector3.Magnitude(this.transform.localScale) * EXTENT_SCALING;
         newRay.transform.position = new Vector3(this.transform.position.x + offset.x, this.transform.position.y, this.transform.position.z + offset.y);
-        newRay.transform.localScale = new Vector3(Ray.RAY_WIDTH, Ray.RAY_WIDTH, Ray.RAY_WIDTH) * RadiationIntensity;
+        newRay.transform.localScale = new Vector3(SolarRay.RAY_WIDTH, SolarRay.RAY_WIDTH, SolarRay.RAY_WIDTH) * RadiationIntensity;
     }
 
     IEnumerator Shine()
