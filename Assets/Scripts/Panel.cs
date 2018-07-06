@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Panel : MonoBehaviour {
-
+public class Panel : MonoBehaviour, ITouchable 
+{
     Emitter heatEmitter;
     public const float HEAT_FLUX_RATE = 0.5f, HEAT_FLUX_FORCE = 0.1f;
 
     void Awake()
     {
-        heatEmitter = GetComponentInChildren<Emitter>();
+        heatEmitter = GetComponent<Emitter>();
     }
 
 	// Use this for initialization
@@ -33,4 +33,9 @@ public class Panel : MonoBehaviour {
     {
 		
 	}
+
+    public string Touch()
+    {
+        return "Solar panel";
+    }
 }

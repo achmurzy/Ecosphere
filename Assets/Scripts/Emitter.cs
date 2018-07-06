@@ -64,18 +64,18 @@ public class Emitter : MonoBehaviour {
 
         newMol.GetComponent<Molecule>().exchanger = this;
         newMol.GetComponent<Molecule>().Lifetime = this.Lifetime;
-        newMol.transform.SetParent(FindObjectOfType<EcosystemController>().transform, false);
+        newMol.transform.SetParent(FindObjectOfType<EcosystemController>().transform, true);
     }
 
     void AddFlux()
     {
         GameObject newFlux = GameObject.Instantiate(Flux) as GameObject;
-        newFlux.transform.position = this.transform.position + SpatialExtent.center + (this.transform.right * Random.Range(SpatialExtent.min.x, SpatialExtent.max.x)) +
-            (this.transform.up * Random.Range(SpatialExtent.min.y, SpatialExtent.max.y)) + (this.transform.forward * Random.Range(SpatialExtent.min.z, SpatialExtent.max.z));
+        newFlux.transform.position = this.transform.position + SpatialExtent.center + (this.transform.right.normalized * Random.Range(SpatialExtent.min.x, SpatialExtent.max.x)) +
+            (this.transform.up.normalized * Random.Range(SpatialExtent.min.y, SpatialExtent.max.y)) + (this.transform.forward.normalized * Random.Range(SpatialExtent.min.z, SpatialExtent.max.z));
         Vector3 trajectory = (this.transform.right * Random.Range(LowerEmissionTrajectory.x, UpperEmissionTrajectory.x)) +
             (this.transform.up * Random.Range(LowerEmissionTrajectory.y, UpperEmissionTrajectory.y)) + (this.transform.forward * Random.Range(LowerEmissionTrajectory.z, UpperEmissionTrajectory.z));
         
-        newFlux.transform.SetParent(FindObjectOfType<EcosystemController>().transform, false);
+        newFlux.transform.SetParent(FindObjectOfType<EcosystemController>().transform, true);
         newFlux.GetComponent<FluxRibbon>().StartFluxing(trajectory.normalized, this);
     }
 

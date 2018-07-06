@@ -7,6 +7,7 @@ TagManager:
   - Vegetation
   - Atmosphere
   - Soil
+  - Voltaic
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - 
   - AR
-  - Vegetation
+  - Touchable
   - Atmosphere
   - Soil
   - 

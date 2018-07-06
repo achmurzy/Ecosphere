@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23294663807003308}
   - component: {fileID: 65575505023472318}
   - component: {fileID: 114116240904685624}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: Sensor
   m_TagString: Soil
   m_Icon: {fileID: 0}

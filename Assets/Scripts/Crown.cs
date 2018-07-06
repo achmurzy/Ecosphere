@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crown : MonoBehaviour, IPhotosensitive 
+public class Crown : MonoBehaviour, IPhotosensitive, ITouchable
 {
     Tree wholePlant; 
     Material luxMat, crownMat;
@@ -57,7 +57,12 @@ public class Crown : MonoBehaviour, IPhotosensitive
 		
 	}
 
-    public bool LightEnter()
+    public string Touch()
+    {
+        return "Tree";
+    }
+
+    public bool LightEnter(SolarRay ray)
     {
         if (Time.time - crownFlashCounter > crownFlashBuffer && crownFlashLerp == 0f)
         {

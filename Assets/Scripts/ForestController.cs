@@ -45,4 +45,9 @@ public class ForestController : EcosystemController
                 return false;
         }
     }
+
+    public override void EcosystemRaycastHandler(GameObject obj)
+    {
+        base.EcosystemRaycastHandler(obj);
+    }
 }

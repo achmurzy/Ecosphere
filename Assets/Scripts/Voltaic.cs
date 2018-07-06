@@ -30,7 +30,7 @@ public class Voltaic : MonoBehaviour, IPhotosensitive
 		
 	}
 
-    public bool LightEnter()
+    public bool LightEnter(SolarRay ray)
     {
         if (Time.time - voltFlashCounter > voltFlashBuffer && voltFlashLerp == 0f)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Consider photosensitivity
-public class Coral : MonoBehaviour 
+public class Coral : MonoBehaviour, ITouchable 
 {
     private GameObject Branch;
     private bool branched = false;
@@ -86,6 +86,11 @@ public class Coral : MonoBehaviour
     {
         
 	}
+
+    public string Touch()
+    {
+        return "Coral";
+    }
 
     IEnumerator CoralGrowth()
     {

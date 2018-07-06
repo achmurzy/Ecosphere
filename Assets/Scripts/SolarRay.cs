@@ -7,7 +7,7 @@ public class SolarRay : MonoBehaviour {
 
     float rayLerp = 0;
     public const float LIGHT_SPEED = 1f;
-    public const float RAY_WIDTH = 0.05f;
+    public const float RAY_WIDTH = 0.5f, RAY_LENGTH = 0.76f;
 
     public SolController Sol;
     Vector3 origPos, origScale;
@@ -27,8 +27,16 @@ public class SolarRay : MonoBehaviour {
         rayLerp += Time.deltaTime * LIGHT_SPEED;
         if (rayLerp >= 1f)
             GameObject.Destroy(this.gameObject);
-        this.transform.position = Vector3.Lerp(origPos, origPos + (this.transform.up * Sol.SolDistance), rayLerp);
-        this.transform.localScale = Vector3.Lerp(origScale, new Vector3(0, Sol.SolDistance * Sol.RadiationIntensity * 0.1f, 0), rayLerp);
+
+        if (!transmit)
+        {
+            this.transform.localScale = Vector3.Lerp(this.transform.localScale, Vector3.zero, rayLerp);
+        }
+        else
+        {
+            this.transform.position = Vector3.Lerp(origPos, origPos + (this.transform.up * Sol.SolDistance), rayLerp);
+            this.transform.localScale = Vector3.Lerp(origScale, new Vector3(0, Sol.SolDistance * Sol.RadiationIntensity * RAY_LENGTH, 0), rayLerp);
+        }
 	}
 
     void OnTriggerEnter(Collider other)
@@ -36,7 +44,7 @@ public class SolarRay : MonoBehaviour {
         IPhotosensitive photo = other.GetComponent<IPhotosensitive>();
         if(photo != null && transmit)
         {
-            if(photo.LightEnter())
+            if(photo.LightEnter(this))
                 transmit = false;
         }
     }

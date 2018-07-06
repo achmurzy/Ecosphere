@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Molecule : MonoBehaviour {
-
+public class Molecule : MonoBehaviour, ITouchable
+{
     public Emitter exchanger;
     public Vector3 BirthPosition { get; private set; }
     public float MolecularScale = 0.05f;
@@ -35,5 +35,10 @@ public class Molecule : MonoBehaviour {
         }
         else
             GameObject.Destroy(this.gameObject);
+    }
+
+    public string Touch()
+    {
+        return name;
     }
 }

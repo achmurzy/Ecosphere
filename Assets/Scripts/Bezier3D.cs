@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 //Makes the fluxes delete somehow
-public class Bezier3D : MonoBehaviour
+public class Bezier3D : MonoBehaviour, ITouchable
 {
     [SerializeField] 
     private Vector3 start;
@@ -28,6 +28,11 @@ public class Bezier3D : MonoBehaviour
     
     public int resolution = 12;
     public float thickness = 0.25f;
+
+    public string Touch()
+    {
+        return transform.parent.name;
+    }
 
     //cacluates point coordinates on a quadratic curve
     public static Vector3 PointOnPath(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)

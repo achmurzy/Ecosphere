@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sensor : MonoBehaviour 
+public class Sensor : MonoBehaviour, ITouchable
 {
     public const float SENSOR_SCALE_MIN = 0.1f, SENSOR_SCALE_MAX = 0.5f;
     private Material sensorMat;
@@ -26,6 +26,7 @@ public class Sensor : MonoBehaviour
         }
     }
     public int SlopeIndex {get; set;}
+    public string Touch() { return "LEO Sensor"; }
 
     public Plant SlopePlant { get { return this.GetComponentInChildren<Plant>(); } set { value.transform.position = this.transform.position + this.transform.up; value.transform.parent = FindObjectOfType<LEOController>().transform; } }
 

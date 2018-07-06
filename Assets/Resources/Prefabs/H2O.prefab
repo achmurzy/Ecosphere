@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4657114118248668}
   - component: {fileID: 54146767525230496}
   - component: {fileID: 114825694017410282}
-  m_Layer: 10
+  - component: {fileID: 135330736726871124}
+  m_Layer: 9
   m_Name: H2O
   m_TagString: Atmosphere
   m_Icon: {fileID: 0}
@@ -37,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4865634652941582}
   - component: {fileID: 33840775691884432}
-  - component: {fileID: 135494507798609064}
   - component: {fileID: 23190770779093502}
   m_Layer: 10
   m_Name: H
@@ -55,7 +55,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4159570953875834}
   - component: {fileID: 33647030886199986}
-  - component: {fileID: 135652916808736622}
   - component: {fileID: 23338824612075714}
   m_Layer: 10
   m_Name: O
@@ -73,7 +72,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4583417255189880}
   - component: {fileID: 33476172229425280}
-  - component: {fileID: 135897573916273448}
   - component: {fileID: 23483075124227494}
   m_Layer: 10
   m_Name: O
@@ -130,7 +128,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1167712563735356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.513879, y: 27.740034, z: -44.61311}
+  m_LocalPosition: {x: -12.545638, y: -2.8384426, z: 9.274423}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4675158326362870}
@@ -216,7 +214,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: bd75867c56630484c88c885b54268c8d, type: 2}
+  - {fileID: 2100000, guid: 4027cc8bd321f1040a43575c9758fde9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -251,7 +249,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: bd75867c56630484c88c885b54268c8d, type: 2}
+  - {fileID: 2100000, guid: 4027cc8bd321f1040a43575c9758fde9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,39 +318,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   exchanger: {fileID: 0}
   MolecularScale: 0.1
---- !u!135 &135494507798609064
+--- !u!135 &135330736726871124
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193125011545712}
+  m_GameObject: {fileID: 1167712563735356}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &135652916808736622
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275588338306314}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &135897573916273448
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1814493935233034}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}

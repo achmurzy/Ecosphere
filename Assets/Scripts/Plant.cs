@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plant : MonoBehaviour, IPhotosensitive
+public class Plant : MonoBehaviour, IPhotosensitive, ITouchable
 {
     PerlinSphere bush;
     Emitter latentHeatFluxer;
@@ -12,6 +12,8 @@ public class Plant : MonoBehaviour, IPhotosensitive
     public const float HEAT_FLUX_RATE = 1.9f, HEAT_FLUX_FORCE = 0.1f;
     public const float PLANT_PERLIN_SHIFT_MIN = 0.01f, PLANT_PERLIN_SHIFT_MAX = 0.05f;
     public const float PLANT_PERLIN_INTER_MIN = 0.01f, PLANT_PERLIN_INTER_MAX = 1.0f;
+
+    public string Touch() { return "Crops"; }
 
     void Awake()
     {
@@ -33,7 +35,7 @@ public class Plant : MonoBehaviour, IPhotosensitive
         latentHeatFluxer.UpperEmissionTrajectory = new Vector3(1, 1, 1);
         latentHeatFluxer.SpatialExtent = emissionBounds;
         
-        latentHeatFluxer.DestructionTrigger.size = new Vector3(10, 10, 10);
+        latentHeatFluxer.DestructionTrigger.size = new Vector3(2, 2, 2);
         latentHeatFluxer.EmissionForce = HEAT_FLUX_FORCE;
         latentHeatFluxer.EmissionRate = HEAT_FLUX_RATE;
         latentHeatFluxer.StartEmitter();
@@ -46,7 +48,7 @@ public class Plant : MonoBehaviour, IPhotosensitive
 	}
 
     //Here, we want to shade the plants. If light enters here, the plant will suffer (and die)
-    public bool LightEnter()
+    public bool LightEnter(SolarRay ray)
     {
         return false;
     }

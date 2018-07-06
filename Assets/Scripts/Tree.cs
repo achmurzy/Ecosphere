@@ -28,10 +28,10 @@ public class Tree : MonoBehaviour
             Bounds emissionBounds = new Bounds();
             emissionBounds.min = Vector3.zero;
             emissionBounds.max = new Vector3(stemWidth, stemHeight, stemWidth);
-            respirator.SpatialExtent = emissionBounds;
             
+            /*respirator.SpatialExtent = emissionBounds;
             respirator.DestructionTrigger.size = Vector3.one * TRIGGER_SCALING; //The trigger zone, as a child of the stem, scales with it directly , so we only add a scalar coefficient
-            respirator.EmissionRate = 1f / stemHeight * EMISSION_SCALING;
+            respirator.EmissionRate = 1f / stemHeight * EMISSION_SCALING;*/
         } 
     }
     public float StemHeight
@@ -48,8 +48,8 @@ public class Tree : MonoBehaviour
     void Awake()
     {
         stem = this.transform.GetChild(0).gameObject;
-        respirator = stem.GetComponentInChildren<Emitter>();
-        respirator.Molecule.GetComponent<Molecule>().MolecularScale = CO2_SCALING;
+        //respirator = stem.GetComponentInChildren<Emitter>();
+        //respirator.Molecule.GetComponent<Molecule>().MolecularScale = CO2_SCALING;
         
         crown = this.transform.GetChild(1).gameObject;
     }
@@ -58,7 +58,7 @@ public class Tree : MonoBehaviour
 	void Start () 
     {
         StemWidth = Random.RandomRange(0.1f, 0.5f);
-        respirator.StartExchanger();
+        //respirator.StartExchanger();
 	}
 	
 	// Update is called once per frame

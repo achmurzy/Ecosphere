@@ -31,7 +31,7 @@ public class Sky : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            if (firmament.Count < 10)
+            if (firmament.Count < 5)
             {
                 GameObject nimbus = GameObject.Instantiate(cloud);
                 nimbus.transform.SetParent(this.gameObject.transform, false);

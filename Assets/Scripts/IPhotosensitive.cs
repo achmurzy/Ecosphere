@@ -1,5 +1,5 @@
 ﻿
 interface IPhotosensitive
 {
-    bool LightEnter();
+    bool LightEnter(SolarRay ray);
 }

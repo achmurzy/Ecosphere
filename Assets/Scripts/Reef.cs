@@ -7,7 +7,7 @@ public class Reef : MonoBehaviour {
 
     GameObject coral;
     List<Coral> reef;
-    public const int REEF_CAPACITY = 30, SUCCESSION_RATE = 1;
+    public const int REEF_CAPACITY = 10, SUCCESSION_RATE = 1;
     public Slider HeatSlider;
 
     void Awake()
@@ -37,6 +37,7 @@ public class Reef : MonoBehaviour {
                 GameObject reefCoral = GameObject.Instantiate(coral);
                 reefCoral.transform.parent = this.gameObject.transform;
                 reefCoral.transform.localPosition = new Vector3(Random.RandomRange(-OceanController.OCEAN_X, OceanController.OCEAN_X), 0, Random.RandomRange(-OceanController.OCEAN_Z, OceanController.OCEAN_Z));
+                reefCoral.transform.localRotation = Quaternion.identity;
                 Coral newCoral = reefCoral.GetComponent<Coral>();
                 newCoral.StressCoral(HeatSlider.value);
                 reef.Add(newCoral);

@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 23142685667924222}
   - component: {fileID: 33498664134620510}
   - component: {fileID: 135621221880080712}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: CO2
   m_TagString: Atmosphere
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1244127062786648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.003067, y: 29.197586, z: -44.41918}
+  m_LocalPosition: {x: -11.035957, y: -3.292293, z: 9.394529}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4783586314984356}
@@ -299,5 +299,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}

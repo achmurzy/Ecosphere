@@ -10,24 +10,27 @@ public class EcosystemController : MonoBehaviour
     public GameObject Guide { get { return inputGuide; } set { inputGuide = value; inputGuide.transform.parent = this.transform.parent; inputGuide.transform.localPosition = Vector3.zero; } }
     public Camera InputCamera { get; set; }
 
-    public Canvas EcosystemCanvas;
-    public Image ControlImage;
+    public Canvas EcosystemCanvas, InspectionCanvas;
+    public Button ControlButton, InspectButton;
     protected Sprite pause, play;
-    private bool paused;
+    private bool paused, inspection;
+    public bool Inspecting { get { return inspection; } set { inspection = value; } }
 
     private bool dragged = false;
     private Vector2 lastMouse;
 
     public const float MAX_ROT_SPEED = 2.5f, MAX_SCALE_SPEED = 0.01f;
     public float repositionTime = 0f, lastDist;
-    public const float REPOSITION_LIMIT = 5.0f;
+    public const float REPOSITION_LIMIT = 35.0f;
     public const float REPOSITION_SPEED = 5f;
 
     protected void Awake()
     {
-        EcosystemCanvas = GetComponentInChildren<Canvas>();
         pause = Resources.Load("Images/pause", typeof(Sprite)) as Sprite;
         play = Resources.Load("Images/play", typeof(Sprite)) as Sprite;
+
+        GameObject ic = GameObject.Instantiate(Resources.Load("Prefabs/InspectionCanvas") as GameObject);
+        InspectionCanvas = ic.GetComponent<Canvas>();
     }
 
 	// Use this for initialization
@@ -63,7 +66,7 @@ public class EcosystemController : MonoBehaviour
                 }
             }
 
-            if (!interactingUI)
+            if (!interactingUI && !inspection)
             {
                 if (Input.touchCount > 1) //Scaling
                 {
@@ -84,11 +87,11 @@ public class EcosystemController : MonoBehaviour
                 {
                     bool raycastCheck = false;
                     Vector2 pos;
-                    if (Input.GetMouseButton(0))
+                    if (Input.GetMouseButton(0))        //Need additional logic to prevent object selection after rotation interactions
                     {
-                        if(Input.GetMouseButtonUp(0))
-                            raycastCheck = true;
+                        
                         pos = Input.mousePosition;
+                        
                     }
                     else// if (Input.touchCount == 1)
                     {
@@ -101,9 +104,10 @@ public class EcosystemController : MonoBehaviour
                     {
                         Ray ray = InputCamera.ScreenPointToRay(pos);
                         RaycastHit info = new RaycastHit();
-                        if (Physics.Raycast(ray, out info, 10000))
+                        if (Physics.Raycast(ray, out info, Mathf.Infinity, 1 << LayerMask.NameToLayer("Touchable")))
                         {
-                            EcosystemRaycastHandler(info.collider.gameObject.tag);
+                            Debug.Log(info.collider.gameObject.name);
+                            EcosystemRaycastHandler(info.collider.gameObject);
                         }
                     }
                     else if (!dragged)
@@ -132,24 +136,46 @@ public class EcosystemController : MonoBehaviour
         }
         else
         {
+            if (Input.GetMouseButtonUp(0))
+            {
+                Ray ray = InputCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit info = new RaycastHit();
+                if (Physics.Raycast(ray, out info, Mathf.Infinity, 1 << LayerMask.NameToLayer("Touchable")))
+                {
+                    Debug.Log(info.collider.gameObject.name);
+                    EcosystemRaycastHandler(info.collider.gameObject);
+                }
+            }
             dragged = false;
             repositionTime += Time.deltaTime;
-            if (repositionTime > REPOSITION_LIMIT)
+            if (repositionTime > REPOSITION_LIMIT && !inspection)
             {
                 this.transform.localRotation = Quaternion.Slerp(this.transform.localRotation, Quaternion.identity, Time.deltaTime * MAX_ROT_SPEED);
             }
         }
 	}
 
+    public void StopInspecting()
+    {
+        inspection = false;
+        InspectButton.gameObject.SetActive(false);
+        InspectionCanvas.gameObject.SetActive(false);
+        ControlButton.gameObject.SetActive(true);
+        
+        ARController ar = FindObjectOfType<ARController>();
+        ar.StopInspecting();
+        PlayScene();
+    }
+
     public void PauseScene()
     {
-        ControlImage.sprite = play;
+        ControlButton.GetComponent<Image>().sprite = play;
         ChildRecurse(false);
     }
 
     public void PlayScene()
     {
-        ControlImage.sprite = pause;
+        ControlButton.GetComponent<Image>().sprite = pause;
         ChildRecurse(true);
     }
 
@@ -185,21 +211,34 @@ public class EcosystemController : MonoBehaviour
         return;
     }
 
-    public virtual void EcosystemRaycastHandler(string objTag)
+    public virtual void EcosystemRaycastHandler(GameObject obj)
     {
-        //Pause the simulation
-        PauseScene();
-        //Save the current camera scale and orientation
-        
-        //Preserve the content without tracking (disable Vuforia hierarchy/tracking somehow)
+        ARController ar = FindObjectOfType<ARController>();
+        if (ar == null)
+            return;
+        if (obj.GetComponent<ITouchable>() != null)
+        {
+            //Prevent screen-based scene interaction
+            obj.GetComponent<ITouchable>().Touch();
+            inspection = true;
 
-        //Check gameobject tag and attach 3D text label
+            //Enable 'X' button to revert to AR tracking
+            ControlButton.gameObject.SetActive(false);
+            InspectButton.gameObject.SetActive(true);
 
-        //Enable 'X' button to revert to AR tracking
+            //Pause the simulation
+            PauseScene();
 
-        //Prevent screen-based scene interaction
+            //Save the current camera scale and orientation
+            //Zoom camera to selected object
+            ar.InspectScene(obj);
 
-        //Zoom camera to selected object
+            //Check gameobject tag and attach 3D text label
+            InspectionCanvas.gameObject.SetActive(true);
+            InspectionCanvas.GetComponent<InspectionController>().FixCanvas(obj, ar.ContentCamera);
+            InspectionCanvas.GetComponent<InspectionController>().enabled = true;
+            //Preserve the content without tracking (disable Vuforia hierarchy/tracking somehow) - happens automatically
+        }
     }
 
     //How can we handle complex objects where parts exist in different tag layers? Don't make complex objects
