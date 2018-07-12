@@ -10,14 +10,16 @@ public class Emitter : MonoBehaviour {
     public float EmissionRate = 0.1f;
     public float EmissionForce = 5f;
 
-    public BoxCollider DestructionTrigger;
     public GameObject Molecule, Flux;
     public float Lifetime = 5f;
     public bool exchanging, emitting;
 
+    public class EmitterPackage { public FluxRibbon flux; public Collider other; public EmitterPackage(FluxRibbon ff, Collider o) { flux = ff; other = o; } }
+
     void Awake()
     {
-        DestructionTrigger = GetComponent<BoxCollider>();
+        if (GetComponent<Collider>() == null)
+            Debug.LogError("No collider on emitter object");
     }
 
 	// Use this for initialization
@@ -114,5 +116,17 @@ public class Emitter : MonoBehaviour {
     void OnDisable()
     {
         StopAllCoroutines();
+    }
+
+    public void TriggerEnterLogic(FluxRibbon flux, Collider other)
+    {
+        EmitterPackage payload = new EmitterPackage(flux, other);
+        SendMessage("TriggerEnter", payload, SendMessageOptions.RequireReceiver);
+    }
+
+    public void TriggerExitLogic(FluxRibbon flux, Collider other)
+    {
+        EmitterPackage payload = new EmitterPackage(flux, other);
+        SendMessage("TriggerExit", payload, SendMessageOptions.RequireReceiver);
     }
 }

@@ -10,7 +10,7 @@ public class SolarRay : MonoBehaviour {
     public const float RAY_WIDTH = 0.5f, RAY_LENGTH = 0.76f;
 
     public SolController Sol;
-    Vector3 origPos, origScale;
+    public Vector3 origPos, goalPos, origScale, goalScale;
     float solDist;
 
     bool transmit = true;
@@ -18,8 +18,6 @@ public class SolarRay : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {   
-        origScale = this.transform.localScale;
-        origPos = this.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -34,8 +32,8 @@ public class SolarRay : MonoBehaviour {
         }
         else
         {
-            this.transform.position = Vector3.Lerp(origPos, origPos + (this.transform.up * Sol.SolDistance), rayLerp);
-            this.transform.localScale = Vector3.Lerp(origScale, new Vector3(0, Sol.SolDistance * Sol.RadiationIntensity * RAY_LENGTH, 0), rayLerp);
+            this.transform.localPosition = Vector3.Lerp(origPos, goalPos, rayLerp);
+            this.transform.localScale = Vector3.Lerp(origScale, goalScale, rayLerp);
         }
 	}
 

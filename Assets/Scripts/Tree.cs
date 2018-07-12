@@ -4,36 +4,40 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour 
 {
-    GameObject stem, crown;
-    private float stemWidth, stemHeight;
-    Emitter respirator;
-    public const float HEIGHT_SCALING = 5f, CROWN_SCALING = 5f, CO2_SCALING = 0.1f;
-    public const float MORTALITY = 2f, EMISSION_SCALING = 1f, TRIGGER_SCALING = 2f;
+    GameObject stem, crown, soilWater;
+    Material stemMat;
+    public Color stemBrown;
+    private float stemWidth, stemHeight, waterAvailability;
+
+    public const float WATER_SCALING = 2f, WATER_MIN = 0, WATER_MAX = 1;
+    public float WaterAvailability 
+    {
+        get { return waterAvailability; }
+        set 
+        {
+            waterAvailability = Mathf.Clamp(value, WATER_MIN, WATER_MAX);
+            soilWater.transform.localScale = new Vector3(waterAvailability, 0.1f, waterAvailability) * WATER_SCALING;
+        }
+    }
+
+    public const float JUVENILE_MIN = 0.2f, JUVENILE_MAX = 0.25f;
+    public const float MORTALITY = 1f, MORTALITY_RATE = 0.05f, SIZE_MORTALITY = 0f;
+    private float deathLerp, deathWidth;
+    public bool Dying = false;
+
+    public const float CROWN_SCALING = 4f;
     public float StemWidth 
     { 
         get { return stemWidth; } 
         set 
         { 
             stemWidth = value;
-            if (stemWidth >= MORTALITY)
-            {
-                foreach (Transform tt in transform.GetComponentsInChildren<Transform>())
-                    GameObject.Destroy(tt.gameObject);
-                SendMessageUpwards("RemoveTree", this);
-                GameObject.Destroy(this);
-                return;
-            }
             StemHeight = stemWidth * HEIGHT_SCALING; 
-            GetComponentInChildren<Crown>().CrownRadius = stemWidth * CROWN_SCALING;
-            Bounds emissionBounds = new Bounds();
-            emissionBounds.min = Vector3.zero;
-            emissionBounds.max = new Vector3(stemWidth, stemHeight, stemWidth);
-            
-            /*respirator.SpatialExtent = emissionBounds;
-            respirator.DestructionTrigger.size = Vector3.one * TRIGGER_SCALING; //The trigger zone, as a child of the stem, scales with it directly , so we only add a scalar coefficient
-            respirator.EmissionRate = 1f / stemHeight * EMISSION_SCALING;*/
+            GetComponentInChildren<Crown>().CrownRadius = (stemWidth * CROWN_SCALING);
         } 
     }
+
+    public const float HEIGHT_SCALING = 4f;
     public float StemHeight
     {
         get { return stemHeight; }
@@ -48,22 +52,57 @@ public class Tree : MonoBehaviour
     void Awake()
     {
         stem = this.transform.GetChild(0).gameObject;
-        //respirator = stem.GetComponentInChildren<Emitter>();
-        //respirator.Molecule.GetComponent<Molecule>().MolecularScale = CO2_SCALING;
+        stemMat = stem.GetComponent<MeshRenderer>().material;
+        stemBrown = stemMat.color;
         
         crown = this.transform.GetChild(1).gameObject;
+        soilWater = this.transform.GetChild(2).gameObject;
     }
 
     // Use this for initialization
 	void Start () 
     {
-        StemWidth = Random.RandomRange(0.1f, 0.5f);
+        StemWidth = Random.Range(JUVENILE_MIN, JUVENILE_MAX);
+        WaterAvailability = 0.75f;
         //respirator.StartExchanger();
 	}
 	
 	// Update is called once per frame
     void Update()
     {
+        //Probability of mortality based on size and water
+        if (stemWidth >= (MORTALITY - (stemWidth * SIZE_MORTALITY)) && !Dying)
+        {
+            Die();
+            return;
+        }
+    }
 
+    public void Die()
+    {
+        deathWidth = stemWidth;
+        StartCoroutine("Mortality");
+        Dying = true;
+    }
+
+    IEnumerator Mortality()
+    {
+        deathLerp = 0f;
+        while (true)
+        {
+            yield return new WaitForSeconds(MORTALITY_RATE);
+            StemWidth = Mathf.Lerp(deathWidth, 0f, deathLerp);
+            crown.GetComponent<Crown>().CrownDeath(deathLerp);
+            if (deathLerp >= 1f)
+            {
+                StopCoroutine("Mortality");
+                foreach (Transform tt in transform.GetComponentsInChildren<Transform>())
+                    GameObject.Destroy(tt.gameObject);
+                SendMessageUpwards("RemoveTree", this);
+                GameObject.Destroy(this);
+                yield break;
+            }
+            deathLerp += Time.deltaTime;
+        }
     }
 }

@@ -5,11 +5,14 @@ using UnityEngine;
 //Consider photosensitivity
 public class Coral : MonoBehaviour, ITouchable 
 {
+    private Reef reef;
     private GameObject Branch;
-    private bool branched = false;
+    private bool branched = false, bleached = false;
     public const int MAX_BRANCHES = 5;
+    private float bleachTime;
 
     public const float VERTICAL_GROWTH = 2.5f, BRANCH_PROB = 0.1f, CHILD_PROPORTION = 0.22f;
+    public const float CORAL_GROWTH = 0.1f, BLEACH_DEATH = 3f;
     
     //Each coral receives 10 growth iterations.
     private float maxGrowth = 0.15f;
@@ -17,7 +20,7 @@ public class Coral : MonoBehaviour, ITouchable
     private float growthRate = 0.01f;
     public float GrowthRate { get; set; }
 
-    private int generation = 0;
+    private int generation = 1;
     public int Generation { get { return generation; } set { generation = value; if (generation > MAX_BRANCHES) branched = true; } }
     public bool RightAxis { get; set; }
 
@@ -33,25 +36,32 @@ public class Coral : MonoBehaviour, ITouchable
         }
     }
 
+    public float BranchSensitivity { get { return 1 - (Generation/(float)(MAX_BRANCHES+1)); } }
     private float tempStress;
     public float TemperatureStress { get { return tempStress; } 
         private set 
         { 
             tempStress = value;
-            this.GetComponent<MeshRenderer>().material.color = Color.Lerp(coralColor, Color.white, tempStress);
-            if (tempStress >= 1)
+            if (!bleached)
             {
-                //Finish evacuating zooxanthellae, prevent growth, probably a flashier visual to indicate death also ( expanding radiating white circle )
-                Destroy(xanth);
-                StopCoroutine("CoralGrowth");
-                return;
+                this.GetComponent<MeshRenderer>().material.color = Color.Lerp(coralColor, Color.white, tempStress);
+                if (tempStress >= (BranchSensitivity+0.05f))
+                {
+                    bleached = true;
+                    bleachTime = Time.time;
+                    StartCoroutine("Evacuation");
+                    StopCoroutine("CoralGrowth");
+                    return;
+                }
+                var particleEmission = xanth.emission;
+                particleEmission.rateOverTime = XANTH_EMISSION_RATE - (XANTH_EMISSION_RATE * (1 - tempStress));
             }
-            var emission = xanth.emission;
-            emission.rateOverTime = XANTH_EMISSION_RATE - (XANTH_EMISSION_RATE * (1 - tempStress));
         }
     }
 
-    public const float XANTH_EMISSION_RATE = 5f;
+    public const float XANTH_EMISSION_RATE = 5f, XANTH_EVACUATION_RATE = 0.03f;
+    private float xanthLerp;
+
     Material coralMat;
     Color coralColor = Color.black;
     ParticleSystem xanth;
@@ -84,7 +94,14 @@ public class Coral : MonoBehaviour, ITouchable
 	// Update is called once per frame
 	void Update () 
     {
-        
+        /*if (bleached)
+        {
+            if (Time.time - bleachTime > BLEACH_DEATH)
+            {
+                reef.RemoveCoral(this);
+                GameObject.Destroy(this.gameObject);
+            }
+        }*/
 	}
 
     public string Touch()
@@ -96,7 +113,7 @@ public class Coral : MonoBehaviour, ITouchable
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.RandomRange(1f, 1.5f));
+            yield return new WaitForSeconds(CORAL_GROWTH);
             if (coralSize >= maxGrowth)
             {
                 StopCoroutine("CoralGrowth");
@@ -107,14 +124,36 @@ public class Coral : MonoBehaviour, ITouchable
         }
     }
 
-    public void StressCoral(float heatStress)
+    IEnumerator Evacuation()
     {
+        xanthLerp = 0f;
+        while (true)
+        {
+            yield return new WaitForSeconds(XANTH_EVACUATION_RATE);
+            this.GetComponent<MeshRenderer>().material.color = Color.Lerp(coralColor, Color.white, xanthLerp);
+            if (xanthLerp > 1f)
+            {
+                Destroy(xanth);
+                StopCoroutine("Evacuation");
+                yield break;
+            }
+            xanthLerp += Time.deltaTime;
+        }
+    }
+
+    //Bleaching needs to be a discrete event with an animation provided by particle system
+    //Sensitivity to bleaching determined by branching generation
+    //1 - MAX_BRANCHES / Generation = TempSensitivity
+    //
+    public void StressCoral(float heatStress, Reef reeeeeeef)
+    {
+        reef = reeeeeeef;
         TemperatureStress = heatStress;
     }
 
     void BranchCoral()
     {
-        if (Random.RandomRange(0f, 1f) <= BRANCH_PROB && !branched)
+        if (Random.Range(0f, 1f) <= BRANCH_PROB && !branched)
         {
             branched = true;
             GameObject branch1 = GameObject.Instantiate(Branch);
@@ -153,7 +192,8 @@ public class Coral : MonoBehaviour, ITouchable
         child.GrowthRate = this.growthRate * CHILD_PROPORTION;
         child.coralColor = this.coralColor;
 
-        child.StressCoral(this.tempStress);
+        child.StressCoral(this.tempStress, reef);
+        reef.AddCoral(child);
     }
 
     void OnEnable()

@@ -7,19 +7,19 @@ public class Bezier3D : MonoBehaviour, ITouchable
 {
     [SerializeField] 
     private Vector3 start;
-    public Vector3 Start { get { return start; } set { start = value; GetComponent<MeshFilter>().mesh = CreateMesh(); } }
+    public Vector3 Start { get { return start; } set { start = value; } }
     
     [SerializeField]
     private Vector3 end;
-    public Vector3 End { get { return end; } set { end = value; GetComponent<MeshFilter>().mesh = CreateMesh(); } }
+    public Vector3 End { get { return end; } set { end = value; } }
     
     [SerializeField]
     private Vector3 handle1;
-    public Vector3 Handle1 { get { return handle1; } set { handle1 = value; BezierMesh = CreateMesh(); } }
+    public Vector3 Handle1 { get { return handle1; } set { handle1 = value; } }
     
     [SerializeField]
     private Vector3 handle2;
-    public Vector3 Handle2 { get { return handle2; } set { handle2 = value; BezierMesh = CreateMesh(); } }
+    public Vector3 Handle2 { get { return handle2; } set { handle2 = value; } }
 
     private Vector3 upNormal;
     public Vector3 UpNormal { get { return upNormal; } set { upNormal = value; } }
@@ -163,5 +163,10 @@ public class Bezier3D : MonoBehaviour, ITouchable
     public void OnTriggerExit(Collider other)
     {
         SendMessageUpwards("TriggerExit", other);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        SendMessageUpwards("TriggerEnter", other);
     }
 }

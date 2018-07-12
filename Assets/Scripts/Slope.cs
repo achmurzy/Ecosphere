@@ -56,8 +56,8 @@ public class Slope : MonoBehaviour
             float z = row - (depth * zRes) - 5;
             float y = depth - 2;
             slopeSensor.LEO_Pos = new Vector3(x, y, z);
-            tempData[i] = (Random.RandomRange(dataMin, dataMax)-dataMin)/(dataMax-dataMin);
-            waterData[i] = (Random.RandomRange(dataMin, dataMax) - dataMin) / (dataMax - dataMin);
+            tempData[i] = (Random.Range(dataMin, dataMax)-dataMin)/(dataMax-dataMin);
+            waterData[i] = (Random.Range(dataMin, dataMax) - dataMin) / (dataMax - dataMin);
             slopeSensor.TempData = tempData[i];
             slopeSensor.WaterData = tempData[i];
             slopeSensor.SlopeIndex = i;

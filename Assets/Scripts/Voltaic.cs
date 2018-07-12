@@ -9,7 +9,8 @@ public class Voltaic : MonoBehaviour, IPhotosensitive
     Color luxYellow, luxOutline, voltBlack;
 
     private float voltFlashLerp, voltFlashCounter, voltFlashBuffer = 1f;
-    private float startSize; 
+    private float startSize;
+    private Panel panel;
 
     void Awake()
     {
@@ -21,8 +22,9 @@ public class Voltaic : MonoBehaviour, IPhotosensitive
     }
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+    {
+        panel = GetComponentInParent<Panel>();	
 	}
 	
 	// Update is called once per frame
@@ -37,6 +39,7 @@ public class Voltaic : MonoBehaviour, IPhotosensitive
             GetComponent<MeshRenderer>().material = luxMat;
             startSize = VOLT_WIDTH*2;
             StartCoroutine("VoltFlash");
+            panel.Volt();
             return true;
         }
         return false;
@@ -51,7 +54,6 @@ public class Voltaic : MonoBehaviour, IPhotosensitive
             luxMat.SetColor("_OutlineColor", Color.Lerp(Color.white, luxOutline, voltFlashLerp));
 
             this.transform.localScale = Vector3.Lerp(Vector3.one * VOLT_WIDTH * VOLT_SCALE, Vector3.one * VOLT_WIDTH, voltFlashLerp);
-            //Add to battery, increase heat
 
             if (voltFlashLerp >= 1f)
             {

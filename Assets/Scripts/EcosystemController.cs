@@ -19,10 +19,10 @@ public class EcosystemController : MonoBehaviour
     private bool dragged = false;
     private Vector2 lastMouse;
 
-    public const float MAX_ROT_SPEED = 2.5f, MAX_SCALE_SPEED = 0.01f;
+    public const float MAX_ROT_SPEED = 1f, MAX_SCALE_SPEED = 0.1f;
     public float repositionTime = 0f, lastDist;
-    public const float REPOSITION_LIMIT = 35.0f;
-    public const float REPOSITION_SPEED = 5f;
+    public const float REPOSITION_LIMIT = 15.0f;
+    public const float REPOSITION_SPEED = 1f;
 
     protected void Awake()
     {
@@ -79,7 +79,7 @@ public class EcosystemController : MonoBehaviour
                     else if (tt1.phase == TouchPhase.Moved || tt2.phase == TouchPhase.Moved)
                     {
                         float sign = Mathf.Sign(dist - lastDist);
-                        FindObjectOfType<ARController>().ScaleScene(MAX_SCALE_SPEED * sign);
+                        FindObjectOfType<ARController>().ScaleScene(Time.deltaTime * MAX_SCALE_SPEED * sign);
                     }
                     lastDist = dist;
                 }
@@ -107,7 +107,7 @@ public class EcosystemController : MonoBehaviour
                         if (Physics.Raycast(ray, out info, Mathf.Infinity, 1 << LayerMask.NameToLayer("Touchable")))
                         {
                             Debug.Log(info.collider.gameObject.name);
-                            EcosystemRaycastHandler(info.collider.gameObject);
+                            EcosystemRaycastHandler(info);
                         }
                     }
                     else if (!dragged)
@@ -120,7 +120,7 @@ public class EcosystemController : MonoBehaviour
                     {
                         Vector2 mouseDistance = pos - lastMouse;
                         Vector3 project =
-                            new Vector3(mouseDistance.x, -mouseDistance.y, 0).normalized;// *MAX_ROT_SPEED;
+                            new Vector3(mouseDistance.x, -mouseDistance.y, 0).normalized * MAX_ROT_SPEED;
 
                         Vector3 from = Guide.transform.forward;
                         Vector3 camY = Guide.transform.up;
@@ -128,7 +128,7 @@ public class EcosystemController : MonoBehaviour
                         Vector3 to = (from + (camY * mouseDistance.y) + (camX * mouseDistance.x)).normalized;
 
                         Quaternion qrot = Quaternion.FromToRotation(from, to);
-                        this.transform.localRotation = Quaternion.Slerp(this.transform.localRotation, qrot * this.transform.localRotation, Time.deltaTime * MAX_ROT_SPEED);
+                        this.transform.localRotation = Quaternion.SlerpUnclamped(this.transform.localRotation, qrot * this.transform.localRotation, Time.deltaTime * REPOSITION_SPEED);
                     }
                     lastMouse = pos;
                 }
@@ -143,7 +143,7 @@ public class EcosystemController : MonoBehaviour
                 if (Physics.Raycast(ray, out info, Mathf.Infinity, 1 << LayerMask.NameToLayer("Touchable")))
                 {
                     Debug.Log(info.collider.gameObject.name);
-                    EcosystemRaycastHandler(info.collider.gameObject);
+                    EcosystemRaycastHandler(info);
                 }
             }
             dragged = false;
@@ -211,8 +211,9 @@ public class EcosystemController : MonoBehaviour
         return;
     }
 
-    public virtual void EcosystemRaycastHandler(GameObject obj)
+    public virtual void EcosystemRaycastHandler(RaycastHit info)
     {
+        GameObject obj = info.collider.gameObject;
         ARController ar = FindObjectOfType<ARController>();
         if (ar == null)
             return;

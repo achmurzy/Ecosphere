@@ -119,8 +119,8 @@ GameObject:
   - component: {fileID: 23688724506982342}
   - component: {fileID: 65669141199332326}
   - component: {fileID: 114125391348071498}
-  - component: {fileID: 114619436501444442}
-  m_Layer: 11
+  - component: {fileID: 114765925308672960}
+  m_Layer: 9
   m_Name: Soil
   m_TagString: Soil
   m_Icon: {fileID: 0}
@@ -173,22 +173,6 @@ GameObject:
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1260439470970816
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4304029236345390}
-  - component: {fileID: 114015262827522128}
-  m_Layer: 9
-  m_Name: Stand
-  m_TagString: Vegetation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -754,19 +738,6 @@ Transform:
   m_Father: {fileID: 4948450031465568}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4304029236345390
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1260439470970816}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4948450031465568}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4304373504409106
 Transform:
   m_ObjectHideFlags: 1
@@ -820,7 +791,6 @@ Transform:
   - {fileID: 4546865980375332}
   - {fileID: 4711040254481096}
   - {fileID: 4067644857579756}
-  - {fileID: 4304029236345390}
   - {fileID: 224695785100884666}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1054,17 +1024,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114015262827522128
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1260439470970816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15cc4cb405f10c3428e32e5f16b83d71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114039934978332066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1244,10 +1203,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 224355259650324096}
   m_HandleRect: {fileID: 224713037486888360}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 0.99
+  m_MinValue: 0.25
+  m_MaxValue: 0.9
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.25
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1282,9 +1241,8 @@ MonoBehaviour:
   UpperEmissionTrajectory: {x: 1, y: 1, z: 1}
   EmissionRate: 1
   EmissionForce: 0.01
-  DestructionTrigger: {fileID: 0}
   Molecule: {fileID: 0}
-  Flux: {fileID: 1559794649509448, guid: 05b71395497c9b545b932603e84cd12d, type: 2}
+  Flux: {fileID: 1837533471190236, guid: 671f9b7c6b6ee4140a0e632e205e6b43, type: 2}
   Lifetime: 5
   exchanging: 0
   emitting: 0
@@ -1435,7 +1393,10 @@ MonoBehaviour:
   IntensitySlider: {fileID: 114116636129962850}
   RadiationIntensity: 0.25
   SolarPeriod: 0.01
-  SolDistance: 30
+  SolDistance: 35
+  MinimumAltitude: 20
+  SolarExtent: {x: 10, y: 10}
+  NightLength: 2
 --- !u!114 &114268267540144398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1581,7 +1542,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Soil Water Availability
+  m_Text: Rainfall
 --- !u!114 &114337571991703256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1614,7 +1575,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Solar Radiation Intensity
+  m_Text: Sunlight
 --- !u!114 &114338057438477092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1771,15 +1732,15 @@ MonoBehaviour:
   m_FillRect: {fileID: 224707473293198222}
   m_HandleRect: {fileID: 224758396870832294}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.01
   m_MaxValue: 0.99
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114267683226241074}
-        m_MethodName: AttenuateLight
+      - m_Target: {fileID: 114712451843060932}
+        m_MethodName: SetPrecipitation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1971,17 +1932,6 @@ MonoBehaviour:
             m_Type: System.Single
             m_EnumType: 
     m_Name: SliderInteract
---- !u!114 &114619436501444442
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1208715210016180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 912523ecf3713ef41af1be17a2cccea1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114628794382091914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2075,6 +2025,7 @@ MonoBehaviour:
   SoilToggle: {fileID: 114788185443788886}
   VegetationToggle: {fileID: 114053182823285580}
   AtmosphereToggle: {fileID: 114002196159730432}
+  WaterAvailability: 0
 --- !u!114 &114712451843060932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2086,6 +2037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e726217d5457d44b6c3be720e20c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaterSlider: {fileID: 114484830803610454}
 --- !u!114 &114716194310343662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2194,6 +2146,17 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!114 &114765925308672960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1208715210016180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cc4cb405f10c3428e32e5f16b83d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114780848566183996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3261,7 +3224,7 @@ RectTransform:
   m_Children:
   - {fileID: 224455981322401240}
   m_Father: {fileID: 4948450031465568}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

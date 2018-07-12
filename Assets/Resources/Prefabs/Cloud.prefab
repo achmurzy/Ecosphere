@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4020885493760640}
   - component: {fileID: 23490386981754138}
   - component: {fileID: 33554005460107290}
-  - component: {fileID: 65032884792783892}
   - component: {fileID: 114253219972570714}
   - component: {fileID: 114504227874206414}
+  - component: {fileID: 136074960133093862}
   m_Layer: 10
   m_Name: Cloud
   m_TagString: Atmosphere
@@ -86,18 +86,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1237798211400552}
   m_Mesh: {fileID: 0}
---- !u!65 &65032884792783892
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1237798211400552}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114253219972570714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,3 +114,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Vapor: 0
+--- !u!136 &136074960133093862
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237798211400552}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

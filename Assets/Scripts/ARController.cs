@@ -33,18 +33,18 @@ public class ARController : MonoBehaviour
         ARCamera.transform.GetChild(0).gameObject.layer = 8;
         Trackable = null;
         contentScale = 0.01f;
+        saveScale = contentScale;
 
         Screen.orientation = ScreenOrientation.LandscapeLeft;
     }
 
     void Update()
     {
+        Debug.Log(contentScale);
         if (ecosystem != null)
         {
             if (ecosystem.Inspecting)
-            {
-
-            }
+            {}
             else if (Trackable.State == Vuforia.TrackableBehaviour.Status.NO_POSE)
             {
                 //Return content camera to the screen center using the camera feed background plane
@@ -64,7 +64,13 @@ public class ARController : MonoBehaviour
             {
                 float invScale = 1.0f / contentScale;
                 Vector3 anchorVec = (ARCamera.transform.position - ecosystem.transform.position).normalized;
-                ContentCamera.transform.position = Vector3.Lerp(ContentCamera.transform.position, ecosystem.transform.position + (anchorVec * invScale), Time.deltaTime * CONTENT_POSITION_SPEED);
+                Debug.Log(invScale);
+                Debug.Log(ContentCamera.transform.position);
+                Debug.Log(anchorVec);
+                Debug.Log(ecosystem.transform.position);
+                Vector3 inf = Vector3.Lerp(ContentCamera.transform.position, ecosystem.transform.position + (anchorVec * invScale), Time.deltaTime * CONTENT_POSITION_SPEED);
+                Debug.Log(inf);
+                ContentCamera.transform.position = inf;
 
                 float angleAdjust = Quaternion.Angle(ContentCamera.transform.rotation, ARCamera.transform.rotation);
                 if (angleAdjust > CONTENT_ROTATE_THRESHOLD)
@@ -83,6 +89,10 @@ public class ARController : MonoBehaviour
         GameObject scene, canvas;
         if (Trackable != null)
         {
+            if(ecosystem != null)
+            {   /*ecosystem.StopInspecting();*/ }
+            else
+            {   Debug.Log("Ecosystem not found with trackable"); }
             InputGuide.transform.parent = null;
             scene = Trackable.transform.GetChild(0).gameObject;
             canvas = Trackable.transform.GetChild(1).gameObject;

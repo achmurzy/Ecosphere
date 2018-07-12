@@ -8,20 +8,24 @@ public class ForestController : EcosystemController
     public const float FOREST_X = 10, FOREST_Y = 10;
   
     GameObject sol;
+    Stand Plants;
 
     public const string VEGETATION_LAYER = "Vegetation", SOIL_LAYER = "Soil", ATMOSPHERE_LAYER = "Atmosphere";
     public Toggle SoilToggle, VegetationToggle, AtmosphereToggle;
 
-    void Awake()
+    public float WaterAvailability;
+
+    new void Awake()
     {
         base.Awake();
     }
 
 	// Use this for initialization
-	void Start () 
+	new void Start () 
     {
         base.Start();
         sol = GameObject.Find("Sol");
+        Plants = FindObjectOfType<Stand>();
     }
 	
 	// Update is called once per frame
@@ -46,8 +50,16 @@ public class ForestController : EcosystemController
         }
     }
 
-    public override void EcosystemRaycastHandler(GameObject obj)
+    public override void EcosystemRaycastHandler(RaycastHit info)
     {
-        base.EcosystemRaycastHandler(obj);
+        GameObject obj = info.collider.gameObject;
+        if (obj == Plants.gameObject)
+        {
+            Plants.PlacePlant(info.point);
+        }
+        else
+        {
+            //base.EcosystemRaycastHandler(info);
+        }
     }
 }

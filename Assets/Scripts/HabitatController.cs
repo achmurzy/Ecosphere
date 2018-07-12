@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HabitatController : MonoBehaviour, IPhotosensitive, ITouchable
+public class HabitatController : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
 {
     public SolController Sol;
 
@@ -45,7 +45,7 @@ public class HabitatController : MonoBehaviour, IPhotosensitive, ITouchable
         heatEmitter.UpperEmissionTrajectory = new Vector3(0, 1, 0);
         heatEmitter.SpatialExtent = emissionBounds;
 
-        heatEmitter.DestructionTrigger.size = new Vector3(1, 2, 1);
+        GetComponent<BoxCollider>().size = new Vector3(1, 2, 1);
         heatEmitter.EmissionForce = Panel.HEAT_FLUX_FORCE;
         heatEmitter.EmissionRate = 1 - pressureLerp;
         heatEmitter.StartEmitter();
@@ -99,6 +99,17 @@ public class HabitatController : MonoBehaviour, IPhotosensitive, ITouchable
             return true;
         }
         return false;
+    }
+
+    public void TriggerEnter(Emitter.EmitterPackage ep)
+    {
+
+    }
+
+    public void TriggerExit(Emitter.EmitterPackage ep)
+    {
+        FluxRibbon fr = ep.flux;
+        Collider other = ep.other;
     }
 
     IEnumerator Flash()

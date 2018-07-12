@@ -7,7 +7,7 @@ public class Molecule : MonoBehaviour, ITouchable
     public Emitter exchanger;
     public Vector3 BirthPosition { get; private set; }
     public float MolecularScale = 0.05f;
-    public float Lifespan { get; private set;  }
+    public float Lifespan { get; set;  }
     public float Lifetime { get; set; }
     
     void Start () 

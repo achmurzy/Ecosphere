@@ -7,7 +7,7 @@ public class FluxRibbon : MonoBehaviour {
     public bool Wiggle = false;
     public float Amplitude = 1f;
     public float Frequency = 1f;
-    public float Lifespan { get; private set; }
+    public float Lifespan { get; set; }
 
     public Vector3 wiggleAxis1 = Vector3.up;
     public Vector3 wiggleAxis2 = Vector3.down;
@@ -15,7 +15,7 @@ public class FluxRibbon : MonoBehaviour {
     private float wiggleLerp = 0f;
     private float lerpSign = 1;
 
-    private Emitter fluxer;
+    public Emitter Fluxer;
     private Vector3 initTraj;
     private Vector3 properUp;
     
@@ -42,13 +42,13 @@ public class FluxRibbon : MonoBehaviour {
 	void Update () 
     {
         Lifespan += Time.deltaTime;
-        if (Lifespan > fluxer.Lifetime)
+        if (Lifespan > Fluxer.Lifetime)
             GameObject.Destroy(this.gameObject);
 
         //For Beziers along the x-axis and controls along the y-axis, the z-axis must point toward the camera
         bezier.UpNormal = (transform.position - Camera.main.transform.position).normalized;
-        //transform.rotation = Quaternion.LookRotation(initTraj, bezier.UpNormal);
-        transform.position += transform.forward.normalized * fluxer.EmissionForce;
+        transform.position += transform.forward.normalized * Fluxer.EmissionForce;
+        
         if (Wiggle)
         {
             wiggleLerp += Time.deltaTime * Frequency * Mathf.Sign(lerpSign);
@@ -62,6 +62,7 @@ public class FluxRibbon : MonoBehaviour {
                 lerpSign = lerpSign * -1;
             }
         }
+        bezier.BezierMesh = bezier.CreateMesh();
 	}
 
     public void StartFluxing(Vector3 target, Emitter flux)
@@ -69,23 +70,24 @@ public class FluxRibbon : MonoBehaviour {
         wiggleLerp = Random.Range(0f, 1f);
         initTraj = target;
         this.transform.forward = initTraj;
-        fluxer = flux;
+        Fluxer = flux;
+    }
+
+    public void TriggerEnter(Collider other)
+    {
+        if(Fluxer != null)
+            Fluxer.TriggerEnterLogic(this, other);
     }
 
     public void TriggerExit(Collider other)
     {
-        if (fluxer != null)
-        {
-            if (other.transform == fluxer.transform)
-            {
-                GameObject.Destroy(transform.GetChild(0).gameObject);
-                GameObject.Destroy(this.gameObject);
-            }
-        }
-        else
-        {
-            GameObject.Destroy(transform.GetChild(0).gameObject);
-            GameObject.Destroy(this.gameObject);
-        }
+        if(Fluxer != null)
+            Fluxer.TriggerExitLogic(this, other);
+    }
+
+    public void Fluxed()
+    {
+        GameObject.Destroy(transform.GetChild(0).gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 }
