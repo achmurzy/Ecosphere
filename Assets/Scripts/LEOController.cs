@@ -7,19 +7,22 @@ public class LEOController : EcosystemController
 {
     public const string WATER_LAYER = "Soil", VEGETATION_LAYER = "Vegetation", TEMPERATURE_LAYER = "Atmosphere";
     public Toggle WaterToggle, TemperatureToggle, VegetationToggle;
+    public Slider InputSlider, TransferSlider;
 
+    public float InputIntensity, TransferRate;
     public Slope East, West, Center, FocusSlope;
 
     void Awake()
     {
         base.Awake();
-        LEOParser.ParseCSV("MiniLEO_Temperature.csv");
+        //LEOParser.ParseCSV("MiniLEO_Temperature.csv");
     }
 
 	// Use this for initialization
 	void Start () 
     {
         base.Start();
+        ToggleColorFilter();
 	}
 	
 	// Update is called once per frame
@@ -28,10 +31,22 @@ public class LEOController : EcosystemController
         base.Update();
 	}
 
+    public void SetInputRate()
+    {
+        InputIntensity = InputSlider.value;
+    }
+
+    public void SetTransferRate()
+    {
+        TransferRate = TransferSlider.value;
+    }
+
     public void ToggleColorFilter()
     {
         if (TemperatureToggle.isOn)
         {
+            WaterToggle.isOn = false;
+            Center.StartCoroutine("DayCycle");
             foreach (Sensor ss in Center.GetComponentsInChildren<Sensor>())
             {
                 ss.ColorFilter();
@@ -50,6 +65,8 @@ public class LEOController : EcosystemController
     {
         if (WaterToggle.isOn)
         {
+            TemperatureToggle.isOn = false;
+            Center.StartCoroutine("RainCycle");
             foreach (Sensor ss in Center.GetComponentsInChildren<Sensor>())
             {
                 ss.SizeFilter();
@@ -61,6 +78,19 @@ public class LEOController : EcosystemController
             {
                 ss.transform.localScale = Vector3.one;
             }
+        }
+    }
+
+    public override void EcosystemRaycastHandler(RaycastHit info)
+    {
+        Sensor obj = info.collider.gameObject.GetComponent<Sensor>();
+        if (obj != null)
+        {
+            //obj.SensorColorFlash();
+        }
+        else
+        {
+            //base.EcosystemRaycastHandler(info);
         }
     }
 

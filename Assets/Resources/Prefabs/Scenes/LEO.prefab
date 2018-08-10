@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 114315951379816390}
   - component: {fileID: 114024971073493912}
   m_Layer: 0
-  m_Name: RadiationSlider
+  m_Name: InputSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 114297484915687484}
   - component: {fileID: 114248773217362692}
   m_Layer: 0
-  m_Name: WaterSlider
+  m_Name: TransferSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -714,7 +714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1848327862547968
 GameObject:
   m_ObjectHideFlags: 1
@@ -1449,12 +1449,12 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 0.99
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.99
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: AttenuateLight
+      - m_Target: {fileID: 114990401105185522}
+        m_MethodName: SetTransferRate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1755,15 +1755,15 @@ MonoBehaviour:
   m_FillRect: {fileID: 224996876930166576}
   m_HandleRect: {fileID: 224088979353324382}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.1
   m_MaxValue: 0.99
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.99
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: AttenuateLight
+      - m_Target: {fileID: 114990401105185522}
+        m_MethodName: SetInputRate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1805,9 +1805,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fb485bb82d7d6498fed82e76b369f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LEO: {fileID: 0}
   xRes: 14
   zRes: 5
   yRes: 11
+  AmbientHeat: 0
+  FluidInput: 0
+  FluidOutput: 0
+  DiurnalCycle: 0
+  RainfallCycle: 0
 --- !u!114 &114297484915687484
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2177,9 +2183,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fb485bb82d7d6498fed82e76b369f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LEO: {fileID: 0}
   xRes: 14
   zRes: 5
   yRes: 11
+  AmbientHeat: 0
+  FluidInput: 0
+  FluidOutput: 0
+  DiurnalCycle: 0
+  RainfallCycle: 0
 --- !u!114 &114510096200632576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2233,7 +2245,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Solar Radiation Intensity
+  m_Text: Soil Input Rate
 --- !u!114 &114570773803376790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2345,7 +2357,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Soil Water Availability
+  m_Text: Soil Transfer Rate
 --- !u!114 &114666488529800032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2925,6 +2937,7 @@ MonoBehaviour:
   SolarPeriod: 0.01
   SolDistance: 50
   MinimumAltitude: 20
+  SolarExtent: {x: 0, y: 0}
   NightLength: 2
 --- !u!114 &114989650825808104
 MonoBehaviour:
@@ -2937,9 +2950,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6fb485bb82d7d6498fed82e76b369f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xRes: 14
-  zRes: 11
+  LEO: {fileID: 0}
+  xRes: 11
+  zRes: 14
   yRes: 5
+  AmbientHeat: 0
+  FluidInput: 0
+  FluidOutput: 0
+  DiurnalCycle: 0
+  RainfallCycle: 0
 --- !u!114 &114990401105185522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2960,6 +2979,10 @@ MonoBehaviour:
   WaterToggle: {fileID: 114822489780123956}
   TemperatureToggle: {fileID: 114175890399957050}
   VegetationToggle: {fileID: 114371174977954824}
+  InputSlider: {fileID: 114202903625679006}
+  TransferSlider: {fileID: 114063942271391900}
+  InputIntensity: 1
+  TransferRate: 1
   East: {fileID: 114261338010542968}
   West: {fileID: 114503020850139704}
   Center: {fileID: 114989650825808104}
@@ -3466,9 +3489,9 @@ RectTransform:
   m_Father: {fileID: 224103234626723246}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -333.3333}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224488020657682222
