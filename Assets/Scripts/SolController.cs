@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SolController : MonoBehaviour, ITouchable
 {
-    public Slider IntensitySlider;
     private GameObject Pivot, Light;
     GameObject Beam;
     public float RadiationIntensity, SolarPeriod = 0f;
@@ -90,6 +89,7 @@ public class SolController : MonoBehaviour, ITouchable
         Vector2 offset = Random.insideUnitCircle;
         offset = new Vector2(offset.x * SolarExtent.x, offset.y * SolarExtent.y);
         newRay.transform.position = new Vector3(this.transform.position.x + offset.x, this.transform.position.y, this.transform.position.z + offset.y);
+
         newRay.transform.localScale = new Vector3(SolarRay.RAY_WIDTH, SolarRay.RAY_LENGTH, SolarRay.RAY_WIDTH) * RadiationIntensity;
 
         rray.origScale = newRay.transform.localScale;
@@ -121,14 +121,14 @@ public class SolController : MonoBehaviour, ITouchable
         StopCoroutine("Shine");
     }
     
-    public void AttenuateLight()
+    public void AttenuateLight(float val)
     {
-        RadiationIntensity = IntensitySlider.value;
+        RadiationIntensity = val;
     }
 
-    public void ChangePhotoperiod()
+    public void ChangePhotoperiod(float val)
     {
-        SolarPeriod = IntensitySlider.value;
+        SolarPeriod = val;
     }
 
     void OnEnable()

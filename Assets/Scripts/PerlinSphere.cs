@@ -30,9 +30,8 @@ public class PerlinSphere : MonoBehaviour
 
     }
 
-    public Mesh MakePlant()
+    public void MakePlant(Mesh mesh)
     {
-        Mesh mesh = new Mesh();
         mesh.Clear();
 
         float radius = Radius;
@@ -145,12 +144,10 @@ public class PerlinSphere : MonoBehaviour
         mesh.triangles = triangles;
 
         mesh.RecalculateBounds();
-        return mesh;
     }
 
-    public Mesh MakeCloud()
+    public void MakeCloud(Mesh mesh)
     {
-        Mesh mesh = new Mesh();
         mesh.Clear();
 
         float radius = Radius;
@@ -263,12 +260,10 @@ public class PerlinSphere : MonoBehaviour
         mesh.triangles = triangles;
 
         mesh.RecalculateBounds();
-        return mesh;
     }
 
-    public Mesh MakeCrown()
+    public void MakeCrown(Mesh mesh)
     {
-        Mesh mesh = new Mesh();
         mesh.Clear();
 
         float radius = Radius;
@@ -381,6 +376,5 @@ public class PerlinSphere : MonoBehaviour
         mesh.triangles = triangles;
 
         mesh.RecalculateBounds();
-        return mesh;
     }
 }

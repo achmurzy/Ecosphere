@@ -12,8 +12,7 @@ public class Sky : MonoBehaviour
     private Stand stand;
 
     SolController sol;
-    public Slider WaterSlider;
-    public const float PRECIP_RATE_MIN = 2f, PRECIP_RATE_MAX = 0.1f;
+    public const float PRECIP_RATE_MIN = 5f, PRECIP_RATE_MAX = 0.1f;
 
 
     void Awake()
@@ -53,9 +52,9 @@ public class Sky : MonoBehaviour
         }
     }
 
-    public void SetPrecipitation()
+    public void SetPrecipitation(float val)
     {
-        float precip = Mathf.Lerp(PRECIP_RATE_MIN, PRECIP_RATE_MAX, WaterSlider.value);
+        float precip = Mathf.Lerp(PRECIP_RATE_MIN, PRECIP_RATE_MAX, val);
         foreach (Cloud cc in firmament)
         {
             cc.PrecipitationRate = precip;

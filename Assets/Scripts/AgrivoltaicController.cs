@@ -7,6 +7,7 @@ public class AgrivoltaicController : EcosystemController
 {
     public SolController Sol;
     public Agriculture Plants;
+    public PanelController Panels;
     public const float AGRIVOLT_X = 10, AGRIVOLT_Y = 10;
 
     public const string VOLTAIC_LAYER = "Soil", VEGETATION_LAYER = "Vegetation", ATMOSPHERE_LAYER = "Atmosphere";
@@ -26,6 +27,8 @@ public class AgrivoltaicController : EcosystemController
         base.Awake();
         Sol = FindObjectOfType<SolController>();
         Plants = FindObjectOfType<Agriculture>();
+        Panels = FindObjectOfType<PanelController>();
+
         Vector2 sizeD = BatteryCharge.GetComponent<RectTransform>().sizeDelta;
         BatteryHeight = sizeD.y;
         BatteryWidth = sizeD.x;
@@ -33,6 +36,9 @@ public class AgrivoltaicController : EcosystemController
         SolarCharge = 0f;
         AgriYield = 0f;
         WaterUse = 0f;
+
+        ParameterFunction1 = Panels.RotatePanels;
+        ParameterFunction2 = Sol.AttenuateLight;
     }
 
 	// Use this for initialization

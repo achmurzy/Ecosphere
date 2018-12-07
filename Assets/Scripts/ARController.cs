@@ -40,7 +40,6 @@ public class ARController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(contentScale);
         if (ecosystem != null)
         {
             if (ecosystem.Inspecting)
@@ -64,12 +63,12 @@ public class ARController : MonoBehaviour
             {
                 float invScale = 1.0f / contentScale;
                 Vector3 anchorVec = (ARCamera.transform.position - ecosystem.transform.position).normalized;
-                Debug.Log(invScale);
+                /*Debug.Log(invScale);
                 Debug.Log(ContentCamera.transform.position);
                 Debug.Log(anchorVec);
-                Debug.Log(ecosystem.transform.position);
+                Debug.Log(ecosystem.transform.position);*/
                 Vector3 inf = Vector3.Lerp(ContentCamera.transform.position, ecosystem.transform.position + (anchorVec * invScale), Time.deltaTime * CONTENT_POSITION_SPEED);
-                Debug.Log(inf);
+
                 ContentCamera.transform.position = inf;
 
                 float angleAdjust = Quaternion.Angle(ContentCamera.transform.rotation, ARCamera.transform.rotation);
@@ -79,7 +78,6 @@ public class ARController : MonoBehaviour
                 }
 
             }
-            //Debug.Log(Input.mouseScrollDelta);
             ScaleScene(Input.mouseScrollDelta.y * MIN_SCALE);
         }
     }

@@ -16,6 +16,7 @@ public class Crown : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
     public const float WATER_FLUX_RATE = 5.0f, WATER_FLUX_FORCE = 0.05f;
 
     PerlinSphere crownSphere;
+    public Mesh CrownMesh { get { return GetComponent<MeshFilter>().sharedMesh; } }
     private const float CROWN_PERLIN_INTERVAL_MIN = 0f, CROWN_PERLIN_INTERVAL_MAX = 0.5f;
     private float crownRadius;
     public float CrownRadius
@@ -47,7 +48,8 @@ public class Crown : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
         transpirator = GetComponentInChildren<Emitter>();
 
         crownSphere = GetComponent<PerlinSphere>();
-        GetComponent<MeshFilter>().mesh = crownSphere.MakeCrown();
+        GetComponent<MeshFilter>().sharedMesh = new Mesh();
+        crownSphere.MakeCrown(CrownMesh);
 
         crownMat = GetComponent<MeshRenderer>().material;
         luxMat = Material.Instantiate(Resources.Load("Materials/Lux") as Material);
@@ -162,7 +164,7 @@ public class Crown : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
     {
         GetComponent<MeshRenderer>().material.color = Color.Lerp(crownGreen, wholePlant.stemBrown, deathLerp);
         crownSphere.PerlinInterval = Mathf.Lerp(CROWN_PERLIN_INTERVAL_MIN, CROWN_PERLIN_INTERVAL_MAX, deathLerp);
-        GetComponent<MeshFilter>().mesh = crownSphere.MakeCrown();
+        crownSphere.MakeCrown(CrownMesh);
     }
 
     void OnDestroy()

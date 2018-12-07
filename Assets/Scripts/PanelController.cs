@@ -8,7 +8,6 @@ public class PanelController : MonoBehaviour
     public GameObject Panel0, Panel1, Panel2, Panel3;
     private List<GameObject> rotationPanels;
     public const float PANEL_ROTATION_LIMIT = 45.0f;
-    public Slider RotationSlider;
 
     void Awake()
     {
@@ -35,8 +34,9 @@ public class PanelController : MonoBehaviour
 		
 	}
 
-    public void RotatePanels()
+    public void RotatePanels(float val)
     {
+        float rotation = Mathf.Lerp(-PANEL_ROTATION_LIMIT, PANEL_ROTATION_LIMIT, val);
         foreach (GameObject go in rotationPanels)
         {
             //go.gameObject.transform.rotation = Quaternion.AngleAxis(RotationSlider.value, go.gameObject.transform.forward);
@@ -44,7 +44,7 @@ public class PanelController : MonoBehaviour
             //go.gameObject.transform.localRotation = Quaternion.AngleAxis(RotationSlider.value, go.gameObject.transform.forward);
             //go.transform.eulerAngles.z = RotationSlider.value;
 
-            go.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, RotationSlider.value));
+            go.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, rotation));
         }
     }
 }

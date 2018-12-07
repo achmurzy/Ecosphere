@@ -18,7 +18,6 @@ public class Ocean : MonoBehaviour, IPhotosensitive
     private Vector3 seaScaleMin, seaScaleMax;
     private Vector3 seaPosMin, seaPosMax;
 
-    public Slider CO2_Slider;
     private bool coolOff = false;
     private float heatLerp;
     public const float HEAT_DISSIP = 0.002f, LIGHT_HEAT = 0.025f;
@@ -54,14 +53,16 @@ public class Ocean : MonoBehaviour, IPhotosensitive
     {
         oceanController = GetComponentInParent<OceanController>();
         coralReef = FindObjectOfType<Reef>();
+
+        GameObject sea = Resources.Load("Prefabs/Seawater") as GameObject;
+        Seawater = GameObject.Find("Seawater");
+        Hotwater = GameObject.Instantiate(sea);
+        CarbonEmitter = this.GetComponent<Emitter>();
     }
 
 	// Use this for initialization
 	void Start () 
-    {
-        GameObject sea = Resources.Load("Prefabs/Seawater") as GameObject;
-        Seawater = GameObject.Find("Seawater");
-        Hotwater = GameObject.Instantiate(sea);
+    {   
         Hotwater.gameObject.name = "Hotwater";
 
         seaScaleMin = new Vector3(2 * OceanController.OCEAN_X, 0, 2 * OceanController.OCEAN_Z);
@@ -81,7 +82,6 @@ public class Ocean : MonoBehaviour, IPhotosensitive
         this.transform.localScale = new Vector3((1f / 5f) * OceanController.OCEAN_X, OceanController.OCEAN_Y, (1f / 5f) * OceanController.OCEAN_Z);
         this.transform.localPosition = new Vector3(0, (OceanController.OCEAN_Y * 2) + 0.01f, 0);
 
-        CarbonEmitter = this.GetComponent<Emitter>();
         Bounds emissionBounds = new Bounds();
         emissionBounds.center = new Vector3(0, OceanController.OCEAN_Y, 0);
         emissionBounds.min = new Vector3(-OceanController.OCEAN_X, 1, -OceanController.OCEAN_Z);
@@ -130,9 +130,9 @@ public class Ocean : MonoBehaviour, IPhotosensitive
         return false;
     }
 
-    public void ClimateChange()
+    public void ClimateChange(float val)
     {
-        CO2_Conc = CO2_Slider.value;
+        CO2_Conc = val;
     }
 
     public void OnCollisionEnter(Collision collision)

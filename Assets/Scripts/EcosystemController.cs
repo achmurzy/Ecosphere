@@ -9,7 +9,7 @@ public class EcosystemController : MonoBehaviour
     private GameObject inputGuide;
     public GameObject Guide { get { return inputGuide; } set { inputGuide = value; inputGuide.transform.parent = this.transform.parent; inputGuide.transform.localPosition = Vector3.zero; } }
     public Camera InputCamera { get; set; }
-
+ 
     public Canvas EcosystemCanvas, InspectionCanvas;
     public Button ControlButton, InspectButton;
     protected Sprite pause, play;
@@ -24,6 +24,10 @@ public class EcosystemController : MonoBehaviour
     public const float REPOSITION_LIMIT = 15.0f;
     public const float REPOSITION_SPEED = 1f;
 
+    protected ParameterSurface Parameters;
+    public delegate void ParameterFunction(float val);
+    protected ParameterFunction ParameterFunction1, ParameterFunction2; //X, Y
+
     protected void Awake()
     {
         pause = Resources.Load("Images/pause", typeof(Sprite)) as Sprite;
@@ -31,15 +35,25 @@ public class EcosystemController : MonoBehaviour
 
         GameObject ic = GameObject.Instantiate(Resources.Load("Prefabs/InspectionCanvas") as GameObject);
         InspectionCanvas = ic.GetComponent<Canvas>();
+
+        Parameters = GetComponentInChildren<ParameterSurface>();
+
+        InputCamera = Camera.main;
+        Guide = GameObject.Find("InputGuide");
     }
 
 	// Use this for initialization
 	protected void Start () 
     {
-        InputCamera = Camera.main;
-        Guide = GameObject.Find("InputGuide");
+        Parameters.UpdateParams();
 	}
 	
+    public void ParameterShift(Vector2 param)
+    {
+        ParameterFunction1(param.x);
+        ParameterFunction2(param.y);
+    }
+
 	// Update is called once per frame
 	protected void Update () 
     {

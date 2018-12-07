@@ -7,12 +7,12 @@ public class Cloud : MonoBehaviour
     PerlinSphere nimbus;
     public Sky CloudSky;
 
-    public Mesh CloudMesh { get { return this.GetComponent<MeshFilter>().mesh; } set { this.GetComponent<MeshFilter>().mesh = value; } }
+    public Mesh CloudMesh { get { return this.GetComponent<MeshFilter>().sharedMesh; } }
     public const int CLOUD_MESH_LONGITUDE = 48, CLOUD_MESH_LATITUDE = 32;
 
     //Iterated for rain and vapor content
     public const float CLOUD_PERLIN_SHIFT_MIN = 0.01f, CLOUD_PERLIN_SHIFT_MAX = 0.1f;
-    public const float CLOUD_PERLIN_RADIUS_MIN = 1f, CLOUD_PERLIN_RADIUS_MAX = 5f;
+    public const float CLOUD_PERLIN_RADIUS_MIN = 1f, CLOUD_PERLIN_RADIUS_MAX = 3f;
     //Randomly varied for visual effect
     public const float CLOUD_PERLIN_INTER_MIN = 0.01f, CLOUD_PERLIN_INTER_MAX = 0.05f;
 
@@ -30,6 +30,7 @@ public class Cloud : MonoBehaviour
 
     void Awake()
     {
+        this.GetComponent<MeshFilter>().sharedMesh = new Mesh();
         nimbus = this.GetComponent<PerlinSphere>();
         rain = Resources.Load("Prefabs/Rain") as GameObject;
     }
@@ -49,7 +50,7 @@ public class Cloud : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        CloudMesh = nimbus.MakeCloud();
+        nimbus.MakeCloud(CloudMesh);
         if (Time.time - lastPrecip > PrecipitationRate)
         {
             lastPrecip = Time.time;
@@ -77,7 +78,7 @@ public class Cloud : MonoBehaviour
         nimbus.Radius = Mathf.Lerp(CLOUD_PERLIN_RADIUS_MIN, CLOUD_PERLIN_RADIUS_MAX, dewLerp);
         nimbus.PerlinShift = Mathf.Lerp(CLOUD_PERLIN_SHIFT_MIN, CLOUD_PERLIN_SHIFT_MAX, dewLerp);
 
-        this.GetComponent<MeshFilter>().mesh = nimbus.MakeCloud();
+        nimbus.MakeCloud(CloudMesh);
         GetComponent<CapsuleCollider>().center = Vector3.zero;
         GetComponent<CapsuleCollider>().radius = nimbus.Radius * 2;
         GetComponent<CapsuleCollider>().height = nimbus.Radius * 2;

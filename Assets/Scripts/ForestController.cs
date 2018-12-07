@@ -7,7 +7,7 @@ public class ForestController : EcosystemController
 {
     public const float FOREST_X = 10, FOREST_Y = 10;
   
-    GameObject sol;
+    GameObject sol, sky;
     Stand Plants;
 
     public const string VEGETATION_LAYER = "Vegetation", SOIL_LAYER = "Soil", ATMOSPHERE_LAYER = "Atmosphere";
@@ -18,14 +18,18 @@ public class ForestController : EcosystemController
     new void Awake()
     {
         base.Awake();
+        sol = GameObject.Find("Sol");
+        sky = GameObject.Find("Sky");
+        Plants = FindObjectOfType<Stand>();
+
+        ParameterFunction1 = sol.GetComponent<SolController>().AttenuateLight;
+        ParameterFunction2 = sky.GetComponent<Sky>().SetPrecipitation;
     }
 
 	// Use this for initialization
 	new void Start () 
     {
         base.Start();
-        sol = GameObject.Find("Sol");
-        Plants = FindObjectOfType<Stand>();
     }
 	
 	// Update is called once per frame

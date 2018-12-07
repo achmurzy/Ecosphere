@@ -24,10 +24,15 @@ public class Bezier3D : MonoBehaviour, ITouchable
     private Vector3 upNormal;
     public Vector3 UpNormal { get { return upNormal; } set { upNormal = value; } }
 
-    public Mesh BezierMesh { get { return GetComponent<MeshFilter>().mesh; } set { GetComponent<MeshFilter>().mesh = value; } }
+    public Mesh BezierMesh { get { return GetComponent<MeshFilter>().sharedMesh; } }
     
     public int resolution = 12;
     public float thickness = 0.25f;
+
+    public void Awake()
+    {
+        GetComponent<MeshFilter>().sharedMesh = new Mesh();
+    }
 
     public string Touch()
     {
@@ -55,11 +60,10 @@ public class Bezier3D : MonoBehaviour, ITouchable
         return p;
     }
 
-    public Mesh CreateMesh()
+    public void UpdateMesh()
     {
-        Mesh mesh;
-
-        mesh = new Mesh();
+        Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
+        mesh.Clear();
 
         float scaling = 1;
         float width = thickness / 2f;
@@ -156,8 +160,6 @@ public class Bezier3D : MonoBehaviour, ITouchable
         mesh.uv = uvList.ToArray();
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
-
-        return mesh;
     }
 
     public void OnTriggerExit(Collider other)

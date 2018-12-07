@@ -11,12 +11,19 @@ public class OceanController : EcosystemController
 
     public Toggle OceanToggle, CoralToggle, AtmosphereToggle;
 
+    GameObject Sol;
     Reef Coral;
+    Ocean Ocean;
 
     void Awake()
     {
         base.Awake();
         Coral = FindObjectOfType<Reef>();
+        Ocean = FindObjectOfType<Ocean>();
+
+        Sol = GameObject.Find("Sol");
+        ParameterFunction1 = Ocean.GetComponent<Ocean>().ClimateChange;
+        ParameterFunction2 = Sol.GetComponent<SolController>().AttenuateLight; 
     }
 
     // Use this for initialization

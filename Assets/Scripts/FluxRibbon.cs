@@ -62,7 +62,7 @@ public class FluxRibbon : MonoBehaviour {
                 lerpSign = lerpSign * -1;
             }
         }
-        bezier.BezierMesh = bezier.CreateMesh();
+        bezier.UpdateMesh();
 	}
 
     public void StartFluxing(Vector3 target, Emitter flux)

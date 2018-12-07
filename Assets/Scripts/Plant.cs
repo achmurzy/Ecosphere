@@ -11,7 +11,7 @@ public class Plant : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
     Material plantMat, dessicateMat, luxMat;
     Color greenColor, brownColor, luxColor, luxOutline; 
 
-    public Mesh PlantMesh { get { return this.GetComponent<MeshFilter>().mesh; } set { this.GetComponent<MeshFilter>().mesh = value; } }
+    public Mesh PlantMesh { get { return this.GetComponent<MeshFilter>().sharedMesh; } }
 
     private const float PLANT_FLASH = 0.01f;
     private float plantFlashLerp, plantFlashCounter;
@@ -33,6 +33,7 @@ public class Plant : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
 
     void Awake()
     {
+        this.GetComponent<MeshFilter>().sharedMesh = new Mesh();
         latentHeatFluxer = this.GetComponent<Emitter>();
         bush = this.GetComponent<PerlinSphere>();
 
@@ -47,7 +48,7 @@ public class Plant : MonoBehaviour, IPhotosensitive, ITouchable, IEmitter
         bush.Radius = Random.Range(PLANT_PERLIN_RADIUS_MIN, PLANT_PERLIN_RADIUS_MAX);
         bush.PerlinInterval = Random.Range(PLANT_PERLIN_INTER_MIN, PLANT_PERLIN_INTER_MAX);
         bush.PerlinShift = Random.Range(PLANT_PERLIN_SHIFT_MIN, PLANT_PERLIN_SHIFT_MAX);
-        PlantMesh = bush.MakePlant();
+        bush.MakePlant(PlantMesh);
     }
 
 	// Use this for initialization
