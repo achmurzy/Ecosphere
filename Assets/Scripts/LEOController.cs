@@ -16,6 +16,8 @@ public class LEOController : EcosystemController
     {
         base.Awake();
         //LEOParser.ParseCSV("MiniLEO_Temperature.csv");
+        ParameterFunction1 = SetInputRate;
+        ParameterFunction2 = SetTransferRate;
     }
 
 	// Use this for initialization
@@ -23,6 +25,7 @@ public class LEOController : EcosystemController
     {
         base.Start();
         ToggleColorFilter();
+        ToggleSizeFilter();
 	}
 	
 	// Update is called once per frame
@@ -31,14 +34,14 @@ public class LEOController : EcosystemController
         base.Update();
 	}
 
-    public void SetInputRate()
+    public void SetInputRate(float val)
     {
-        InputIntensity = InputSlider.value;
+        InputIntensity = val;
     }
 
-    public void SetTransferRate()
+    public void SetTransferRate(float val)
     {
-        TransferRate = TransferSlider.value;
+        TransferRate = val;
     }
 
     public void ToggleColorFilter()

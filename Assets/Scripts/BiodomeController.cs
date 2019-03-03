@@ -20,6 +20,9 @@ public class BiodomeController : EcosystemController
         West = GameObject.Find("West_Lung").GetComponent<LungController>();
         Habitat = FindObjectOfType<HabitatController>();
         Sol = FindObjectOfType<SolController>();
+
+        ParameterFunction1 = Sol.ChangePhotoperiod;
+        ParameterFunction2 = LungPumpRate;
     }
 
 	// Use this for initialization
@@ -41,6 +44,12 @@ public class BiodomeController : EcosystemController
         Habitat.Deflate();
         East.Deflate();
         West.Deflate();
+    }
+
+    public void LungPumpRate(float val)
+    {
+        East.SlidePumpRate(val);
+        West.SlidePumpRate(val);
     }
 
     public override bool CheckLayerEnabled(string layer)

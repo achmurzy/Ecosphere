@@ -11,6 +11,7 @@ public class EcosystemController : MonoBehaviour
     public Camera InputCamera { get; set; }
  
     public Canvas EcosystemCanvas, InspectionCanvas;
+    public GameObject AboutPanel;
     public Button ControlButton, InspectButton;
     protected Sprite pause, play;
     private bool paused, inspection;
@@ -34,8 +35,9 @@ public class EcosystemController : MonoBehaviour
         play = Resources.Load("Images/play", typeof(Sprite)) as Sprite;
 
         GameObject ic = GameObject.Instantiate(Resources.Load("Prefabs/InspectionCanvas") as GameObject);
+        AboutPanel = GameObject.Instantiate(Resources.Load("Prefabs/AboutPanel") as GameObject);
         InspectionCanvas = ic.GetComponent<Canvas>();
-
+       
         Parameters = GetComponentInChildren<ParameterSurface>();
 
         InputCamera = Camera.main;
@@ -168,6 +170,11 @@ public class EcosystemController : MonoBehaviour
             }
         }
 	}
+
+    public void ToggleAboutScreen()
+    {
+        AboutPanel.SetActive(!AboutPanel.activeSelf);
+    }
 
     public void StopInspecting()
     {

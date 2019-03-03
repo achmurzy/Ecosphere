@@ -21,8 +21,6 @@ public class LungController : MonoBehaviour, ITouchable
     private Material habMat, tunnelMat;
     private Color habRed;
 
-    public Slider PumpSlider;
-
     void Awake()
     {
         habMat = Material.Instantiate(Resources.Load("Materials/Biodome") as Material);
@@ -112,9 +110,9 @@ public class LungController : MonoBehaviour, ITouchable
         nightPump = pumpLerp;
     }
 
-    public void SlidePumpRate()
+    public void SlidePumpRate(float val)
     {
-        PumpRate = PumpSlider.value;
+        PumpRate = val;
     }
 
     public string Touch()
