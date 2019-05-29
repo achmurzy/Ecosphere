@@ -12,8 +12,11 @@ FEATURES:
 
 (Specific work items)
 TO-DO:
--Make an app icon.
+
 
 NICE-TO-HAVE:
 -Make the parameter surface a world canvas, and make it toggleable
 -Add sprinklers to LEO, fix sunlight, remove flow/diffusion rate as a parameter (for now)
+
+DONE:
+-Make an app icon.

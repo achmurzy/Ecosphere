@@ -30,7 +30,7 @@ public class ARController : MonoBehaviour
     void Start()
     {
         //Set to render only background plane
-        ARCamera.transform.GetChild(0).gameObject.layer = 8;
+        //ARCamera.transform.GetChild(0).gameObject.layer = 8;
         Trackable = null;
         contentScale = 0.01f;
         saveScale = contentScale;

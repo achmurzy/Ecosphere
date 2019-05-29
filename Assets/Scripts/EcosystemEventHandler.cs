@@ -75,7 +75,7 @@ public class EcosystemEventHandler : DefaultTrackableEventHandler
          * */
     }
 
-    public override void OnTrackableStateChanged(TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus)
+    /*public override void OnTrackableStateChanged(TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus)
     {
         State = newStatus;
         if (newStatus == TrackableBehaviour.Status.DETECTED ||
@@ -98,5 +98,5 @@ public class EcosystemEventHandler : DefaultTrackableEventHandler
             // Call OnTrackingLost() to hide the augmentations
             OnTrackingLost();
         }
-    }
+    }*/
 }
